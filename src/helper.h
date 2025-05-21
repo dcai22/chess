@@ -1,10 +1,7 @@
-#ifndef HELPER_H
-#define HELPER_H
+#pragma once
 
 #include <string>
 #include <vector>
 #include <sstream>
 
 auto splitByWhitespace(const std::string& str) -> std::vector<std::string>;
-
-#endif // HELPER_H

@@ -1,15 +1,15 @@
-#include <string>
 #include <optional>
 
 #include "game.h"
 #include "helper.h"
+#include "move.h"
 
 Game::Game()
 : board_(Board())
 {}
 
-auto Game::processMove(const std::string& move) -> bool {
-    if (board_.processMove(move)) {
+auto Game::processMove(const Move& move) -> bool {
+    if (moveValidator_.isValidMove(board_, move) && board_.processMove(move)) {
         switch (colourToMove_) {
             case PieceColour::White:
                 colourToMove_ = PieceColour::Black;
@@ -40,19 +40,4 @@ auto Game::hasEnded() const -> bool {
 
 auto Game::getColourToMove() const -> PieceColour {
     return colourToMove_;
-}
-
-auto Game::isValidMove(std::string move) -> bool {
-    auto tokens = splitByWhitespace(move);
-    if (tokens.size() != 2) {
-        return false;
-    }
-
-    for (const auto& token : tokens) {
-        if (!Board::isValidSquare(token)) {
-            return false;
-        }
-    }
-
-    return true;
 }

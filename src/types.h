@@ -1,9 +1,6 @@
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
 enum class PieceColour {
     White,
     Black,
 };
-
-#endif // TYPES_H

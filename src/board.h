@@ -1,5 +1,4 @@
-#ifndef BOARD_H
-#define BOARD_H
+#pragma once
 
 #include <algorithm>
 #include <vector>
@@ -14,6 +13,7 @@
 #include "pieces/queen.h"
 #include "pieces/king.h"
 #include "constants.h"
+#include "move.h"
 
 class Board {
  private:
@@ -26,12 +26,8 @@ class Board {
  public:
     Board();
 
-    auto processMove(const std::string& move) -> bool;
+    auto processMove(const Move& move) -> bool;
     auto printState() const -> void;
     auto hasEnded() const -> bool;
     auto getWinner() const -> std::optional<PieceColour>;
-
-    static auto isValidSquare(const std::string& str) -> bool;
 };
-
-#endif // BOARD_H

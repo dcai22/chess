@@ -3,6 +3,7 @@
 
 #include "board.h"
 #include "helper.h"
+#include "move.h"
 
 Board::Board() {
     for (auto col = 0; col < 8; col++) {
@@ -56,15 +57,8 @@ auto Board::updateHasKing() -> void {
     blackHasKing_ = blackHasKing;
 }
 
-auto Board::processMove(const std::string& move) -> bool {
-    const auto squares = splitByWhitespace(move);
-    const auto col1 = squares[0][0] - 'a';
-    const auto row1 = squares[0][1] - '1';
-    const auto col2 = squares[1][0] - 'a';
-    const auto row2 = squares[1][1] - '1';
-
-    board_[row2][col2] = std::move(board_[row1][col1]);
-
+auto Board::processMove(const Move& move) -> bool {
+    board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
     updateHasKing();
     return true;
 }
@@ -89,20 +83,5 @@ auto Board::getWinner() const -> std::optional<PieceColour> {
         return std::make_optional(PieceColour::Black);
     } else {
         return std::nullopt;
-    }
-}
-
-auto Board::isValidSquare(const std::string& str) -> bool {
-    if (str.size() != 2) {
-        return false;
-    }
-
-    const auto x = str[0] - 'a';
-    const auto y = str[1] - '1';
-    if ((0 <= x && x < Constants::BOARD_SIZE) &&
-        (0 <= y && y < Constants::BOARD_SIZE)) {
-        return true;
-    } else {
-        return false;
     }
 }

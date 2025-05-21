@@ -1,5 +1,4 @@
-#ifndef PIECE_H
-#define PIECE_H
+#pragma once
 
 #include "../types.h"
 
@@ -18,5 +17,3 @@ class Piece {
 
     virtual ~Piece() = default;
 };
-
-#endif // PIECE_H

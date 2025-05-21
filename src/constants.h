@@ -1,5 +1,4 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
 #include <math.h>
 
@@ -22,5 +21,3 @@ namespace Constants {
     constexpr char QUEEN_SYMBOL = 'Q';
     constexpr char KING_SYMBOL = 'K';
 }
-
-#endif // CONSTANTS_H

@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "types.h"
+#include "move.h"
 
 auto main() -> int {
     std::cout << "Welcome to Chess!" << std::endl;
@@ -20,13 +21,21 @@ auto main() -> int {
                 break;
         }
 
-        auto move = std::string();
-        std::getline(std::cin >> std::ws, move);
-        while (!Game::isValidMove(move)) {
-            std::cout << "Please enter a valid move, e.g. e2 e4" << std::endl;
-            std::getline(std::cin >> std::ws, move);
+        auto moveOpt = std::optional<Move>();
+        while (true) {
+            std::cout << "Enter move: ";
+            auto command = std::string();
+            std::getline(std::cin >> std::ws, command);
+            moveOpt = Move::fromStr(command);
+
+            if (moveOpt.has_value()) {
+                break;
+            } else {
+                std::cout << "Invalid move" << std::endl;
+            }
         }
 
+        auto move = moveOpt.value();
         game.processMove(move);
         game.printBoard();
     }
