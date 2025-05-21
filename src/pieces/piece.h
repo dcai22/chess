@@ -14,6 +14,7 @@ class Piece {
     public:
     auto getValue() const -> double;
     auto getSymbol() const -> char;
+    auto getColour() const -> PieceColour;
 
     virtual ~Piece() = default;
 };

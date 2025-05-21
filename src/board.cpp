@@ -4,6 +4,7 @@
 #include "board.h"
 #include "helper.h"
 #include "move.h"
+#include "square.h"
 
 Board::Board() {
     for (auto col = 0; col < 8; col++) {
@@ -13,24 +14,24 @@ Board::Board() {
                 auto colour = row == 0 ? PieceColour::White : PieceColour::Black;
                 if (col == 0 || col == 7) {
                     // rooks
-                    board_[row][col] = std::make_unique<Rook>(colour);
+                    board_[row][col] = std::make_shared<Rook>(colour);
                 } else if (col == 1 || col == 6) {
                     // knights
-                    board_[row][col] = std::make_unique<Knight>(colour);
+                    board_[row][col] = std::make_shared<Knight>(colour);
                 } else if (col == 2 || col == 5) {
                     // bishops
-                    board_[row][col] = std::make_unique<Bishop>(colour);
+                    board_[row][col] = std::make_shared<Bishop>(colour);
                 } else if (col == 3) {
                     // queen
-                    board_[row][col] = std::make_unique<Queen>(colour);
+                    board_[row][col] = std::make_shared<Queen>(colour);
                 } else if (col == 4) {
                     // king
-                    board_[row][col] = std::make_unique<King>(colour);
+                    board_[row][col] = std::make_shared<King>(colour);
                 }
             } else if (row == 1 || row == 6) {
                 auto colour = row == 1 ? PieceColour::White : PieceColour::Black;
                 // pawns
-                board_[row][col] = std::make_unique<Pawn>(colour);
+                board_[row][col] = std::make_shared<Pawn>(colour);
             }
         }
     }
@@ -83,4 +84,8 @@ auto Board::getWinner() const -> std::optional<PieceColour> {
     } else {
         return std::nullopt;
     }
+}
+
+auto Board::pieceAt(const Square& square) const -> std::weak_ptr<Piece> {
+    return board_[square.row][square.col];
 }

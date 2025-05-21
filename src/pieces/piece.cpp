@@ -25,3 +25,7 @@ auto Piece::getSymbol() const -> char {
             throw std::logic_error("Piece does not have a colour");
     }
 }
+
+auto Piece::getColour() const -> PieceColour {
+    return colour_;
+}
