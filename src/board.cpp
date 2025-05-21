@@ -64,8 +64,10 @@ auto Board::updateHasKing() -> void {
     blackHasKing_ = blackHasKing;
 }
 
+// precondition: there is a piece on move.from
 auto Board::processMove(const Move& move) -> void {
     board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
+    board_[move.to.row][move.to.col]->setMoved();
     updateHasKing();
 }
 

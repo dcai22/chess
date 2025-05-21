@@ -29,3 +29,11 @@ auto Piece::getSymbol() const -> char {
 auto Piece::getColour() const -> PieceColour {
     return colour_;
 }
+
+auto Piece::hasMoved() const ->  bool {
+    return hasMoved_;
+}
+
+auto Piece::setMoved() -> void {
+    hasMoved_ = true;
+}

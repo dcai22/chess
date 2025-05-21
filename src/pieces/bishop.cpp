@@ -26,8 +26,8 @@ auto Bishop::canDoMove(const Board& board, const Move& move) const -> bool {
                 break;
             }
 
-            auto to = Square(toRow, toCol);
-            auto toPiece = board.pieceAt(to).lock();
+            const auto to = Square(toRow, toCol);
+            const auto toPiece = board.pieceAt(to).lock();
             if (toPiece && toPiece->getColour() == getColour()) {
                 // reached piece of same colour
                 break;
