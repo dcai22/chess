@@ -2,10 +2,11 @@
 #define ROOK_H
 
 #include "Piece.h"
+#include "Types.h"
 
 class Rook : public Piece {
  public:
-    Rook();
+    Rook(PieceColour colour);
 };
 
 #endif // ROOK_H

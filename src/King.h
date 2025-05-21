@@ -2,10 +2,11 @@
 #define KING_H
 
 #include "Piece.h"
+#include "Types.h"
 
 class King : public Piece {
  public:
-    King();
+    King(PieceColour colour);
 };
 
 #endif // KING_H

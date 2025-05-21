@@ -1,5 +1,5 @@
 #include "Queen.h"
 
-Queen::Queen()
-: Piece(9, 'Q')
+Queen::Queen(PieceColour colour)
+: Piece(9, 'Q', colour)
 {}

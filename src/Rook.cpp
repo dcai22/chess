@@ -1,5 +1,5 @@
 #include "Rook.h"
 
-Rook::Rook()
-: Piece(5, 'R')
+Rook::Rook(PieceColour colour)
+: Piece(5, 'R', colour)
 {}

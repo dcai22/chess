@@ -1,5 +1,5 @@
 #include "Bishop.h"
 
-Bishop::Bishop()
-: Piece(3, 'B')
+Bishop::Bishop(PieceColour colour)
+: Piece(3, 'B', colour)
 {}

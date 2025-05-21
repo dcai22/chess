@@ -2,10 +2,11 @@
 #define QUEEN_H
 
 #include "Piece.h"
+#include "Types.h"
 
 class Queen : public Piece {
  public:
-    Queen();
+    Queen(PieceColour colour);
 };
 
 #endif // QUEEN_H

@@ -2,10 +2,11 @@
 #define PAWN_H
 
 #include "Piece.h"
+#include "Types.h"
 
 class Pawn : public Piece {
  public:
-    Pawn();
+    Pawn(PieceColour colour);
 };
 
 #endif // PAWN_H

@@ -2,6 +2,6 @@
 
 #include "King.h"
 
-King::King()
-: Piece(INFINITY, 'K')
+King::King(PieceColour colour)
+: Piece(INFINITY, 'K', colour)
 {}

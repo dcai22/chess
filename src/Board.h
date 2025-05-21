@@ -20,7 +20,7 @@ class Board {
  public:
     Board();
 
-    auto printState() -> void;
+    auto printState() const -> void;
 };
 
 #endif // BOARD_H
