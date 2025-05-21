@@ -8,7 +8,7 @@ Pawn::Pawn(const PieceColour colour)
 {}
 
 // TODO: implement en-passant and promotion
-auto Pawn::canDoMove(const Board& board, const Move& move) const -> bool {
+auto Pawn::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     auto fromRow = move.from.row;
     auto fromCol = move.from.col;
 
@@ -27,7 +27,7 @@ auto Pawn::canDoMove(const Board& board, const Move& move) const -> bool {
         if (board.pieceAt(to).lock()) {
             break;
         } else if (to == move.to) {
-            return true;
+            return MoveType::Move;
         }
     }
 
@@ -36,17 +36,26 @@ auto Pawn::canDoMove(const Board& board, const Move& move) const -> bool {
     for (const auto& colStep : colSteps) {
         const auto toRow = fromRow + rowStep;
         const auto toCol = fromCol + colStep;
-
-        if (!Square::isValid(toRow, toCol)) {
-            break;
+        if (Square::isValid(toRow, toCol)) {
+            const auto to = Square(toRow, toCol);
+            const auto toPiece = board.pieceAt(to).lock();
+            if (toPiece && toPiece->getColour() != getColour() && to == move.to) {
+                return MoveType::Capture;
+            }
         }
 
-        const auto to = Square(toRow, toCol);
-        const auto toPiece = board.pieceAt(to).lock();
-        if (toPiece && toPiece->getColour() != getColour() && to == move.to) {
-            return true;
+
+        // en-passant
+        const auto enPassantRow = fromRow;
+        const auto enPassantCol = fromCol + colStep;
+        if (Square::isValid(enPassantRow, enPassantCol)) {
+            const auto enPassantSquare = Square(enPassantRow, enPassantCol);
+            const auto enPassantPiece = board.pieceAt(enPassantSquare).lock();
+            if (enPassantPiece && enPassantPiece->getColour() != getColour() && enPassantSquare == move.to) {
+                return MoveType::EnPassant;
+            }
         }
     }
 
-    return false;
+    return MoveType::None;
 }

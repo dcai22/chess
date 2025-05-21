@@ -11,7 +11,7 @@ class Piece {
     double value_;
     char symbol_;
     PieceColour colour_;
-    bool hasMoved_ = false;
+    bool lastMoved_ = 0;
 
  protected:
     Piece(const double value, const char symbol, const PieceColour colour);
@@ -20,11 +20,12 @@ class Piece {
     auto getValue() const -> double;
     auto getSymbol() const -> char;
     auto getColour() const -> PieceColour;
+    auto getLastMoved() const -> int;
     auto hasMoved() const -> bool;
 
-    auto setMoved() -> void;
+    auto setLastMoved(const int& moveNum) -> void;
 
-    virtual auto canDoMove(const Board& board, const Move& move) const -> bool = 0;
+    virtual auto deduceMoveType(const Board& board, const Move& move) const -> MoveType = 0;
 
     virtual ~Piece() = default;
 };

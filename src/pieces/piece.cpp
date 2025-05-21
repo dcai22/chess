@@ -30,10 +30,14 @@ auto Piece::getColour() const -> PieceColour {
     return colour_;
 }
 
-auto Piece::hasMoved() const ->  bool {
-    return hasMoved_;
+auto Piece::getLastMoved() const -> int {
+    return lastMoved_;
 }
 
-auto Piece::setMoved() -> void {
-    hasMoved_ = true;
+auto Piece::hasMoved() const ->  bool {
+    return lastMoved_ > 0;
+}
+
+auto Piece::setLastMoved(const int& moveNum) -> void {
+    lastMoved_ = moveNum;
 }

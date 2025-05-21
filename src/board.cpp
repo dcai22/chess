@@ -65,9 +65,9 @@ auto Board::updateHasKing() -> void {
 }
 
 // precondition: there is a piece on move.from
-auto Board::processMove(const Move& move) -> void {
+auto Board::executeMove(const Move& move, const int& moveNum) -> void {
     board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
-    board_[move.to.row][move.to.col]->setMoved();
+    board_[move.to.row][move.to.col]->setLastMoved(moveNum);
     updateHasKing();
 }
 

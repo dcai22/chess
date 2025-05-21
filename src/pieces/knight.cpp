@@ -7,7 +7,7 @@ Knight::Knight(const PieceColour colour)
 : Piece(Constants::KNIGHT_SYMBOL, Constants::KNIGHT_SYMBOL, colour)
 {}
 
-auto Knight::canDoMove(const Board& board, const Move& move) const -> bool {
+auto Knight::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;
 
@@ -21,14 +21,16 @@ auto Knight::canDoMove(const Board& board, const Move& move) const -> bool {
 
         const auto to = Square(toRow, toCol);
         const auto toPiece = board.pieceAt(to).lock();
-        if (toPiece && toPiece->getColour() == getColour()) {
-            // piece has same colour
-            continue;
-        } else if (to == move.to) {
-            // reached desired square
-            return true;
+        if (to == move.to) {
+            if (toPiece) {
+                if (toPiece->getColour() != getColour()) {
+                    return MoveType::Capture;
+                }
+            } else {
+                return MoveType::Move;
+            }
         }
     }
 
-    return false;
+    return MoveType::None;
 }

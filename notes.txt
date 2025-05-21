@@ -13,8 +13,8 @@ Here is a checklist of rules to implement:
  - A move cannot result in the player's King being in check
  - Piece-specific rules:
     - Pawn:
-        - Can move, but not capture, 1 unit forward
-        - On its first move, it may move, but not capture, 2 units forward, if the square in front is empty
+        - Can move, but not capture, 1 unit forward                                                                         DONE
+        - On its first move, it may move, but not capture, 2 units forward, if the square in front is empty                 DONE
         - Captures can only be made 1 unit diagonally forward (captures 1 unit forward are not allowed)
         - En-passant
             - If your opponent's previous move was a pawn moving 2 spaces forward, landing your pawn's left or right,
@@ -22,7 +22,8 @@ Here is a checklist of rules to implement:
         - Promotion
             - If your pawn reaches the end of the board (8th rank for white, 1st rank for black), it is
               replaced with any piece (but not pawn) of your choosing
-            - The new rook should copy the Piece properties from the pawn to avoid bad castling logic
+            - The new piece should copy the Piece properties from the pawn to avoid bad castling logic
+            - I will promote to a Queen by default (promotion to any piece will be done in the future)
     - Rook:
         - Line of sight is horizontal and vertical
         - Can only move/capture in its line of sight
@@ -47,6 +48,7 @@ Here is a checklist of rules to implement:
     - Checkmate occurs when the player has no legal moves remaining
 FOR FUTURE IMPLEMENTATION:
     - Draws
+        - Stalemate
         - Threefold repetition
         - Insufficient material
         - Fifty moves without a pawn move or a capture

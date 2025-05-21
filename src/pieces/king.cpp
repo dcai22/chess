@@ -8,7 +8,7 @@ King::King(const PieceColour colour)
 {}
 
 // TODO: castling logic
-auto King::canDoMove(const Board& board, const Move& move) const -> bool {
+auto King::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;
 
@@ -22,14 +22,16 @@ auto King::canDoMove(const Board& board, const Move& move) const -> bool {
 
         const auto to = Square(toRow, toCol);
         const auto toPiece = board.pieceAt(to).lock();
-        if (toPiece && toPiece->getColour() == getColour()) {
-            // piece has same colour
-            continue;
-        } else if (to == move.to) {
-            // reached desired square
-            return true;
+        if (to == move.to) {
+            if (toPiece) {
+                if (toPiece->getColour() != getColour()) {
+                    return MoveType::Capture;
+                }
+            } else {
+                return MoveType::Move;
+            }
         }
     }
 
-    return false;
+    return MoveType::None;
 }

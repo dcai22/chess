@@ -25,7 +25,7 @@ class Board {
  public:
     Board();
 
-    auto processMove(const Move& move) -> void;
+    auto executeMove(const Move& move, const int& moveNum) -> void;
     auto printState() const -> void;
     auto hasEnded() const -> bool;
     auto getWinner() const -> std::optional<PieceColour>;

@@ -4,13 +4,14 @@
 
 #include "board.h"
 #include "types.h"
-#include "move_validator.h"
 
 class Game {
  private:
     Board board_;
     PieceColour colourToMove_ = PieceColour::White;
-    MoveValidator moveValidator_ = MoveValidator();
+    int numMoves_ = 0;
+
+    auto isValidMove(const Move& move) const -> bool;
 
  public:
     Game();

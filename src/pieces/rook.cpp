@@ -7,7 +7,7 @@ Rook::Rook(const PieceColour colour)
 : Piece(Constants::ROOK_SYMBOL, Constants::ROOK_SYMBOL, colour)
 {}
 
-auto Rook::canDoMove(const Board& board, const Move& move) const -> bool {
+auto Rook::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;
 
@@ -24,18 +24,21 @@ auto Rook::canDoMove(const Board& board, const Move& move) const -> bool {
 
             const auto to = Square(toRow, toCol);
             const auto toPiece = board.pieceAt(to).lock();
-            if (toPiece && toPiece->getColour() == getColour()) {
-                // reached piece of same colour
-                break;
+            if (toPiece) {
+                if (toPiece->getColour() == getColour()) {
+                    break;
+                } else {
+                    if (to == move.to) {
+                        return MoveType::Capture;
+                    } else {
+                        break;
+                    }
+                }
             } else if (to == move.to) {
-                // reached desired square
-                return true;
-            } else if (toPiece && toPiece->getColour() != getColour()) {
-                // reached a piece, wrong square
-                break;
+                return MoveType::Move;
             }
         }
     }
 
-    return false;
+    return MoveType::None;
 }
