@@ -13,7 +13,9 @@ auto MoveValidator::isValidMove(const Board& board, const Move& move, const Piec
     } else if (move.from == move.to) {
         std::cout << "Start and end square cannot be the same" << std::endl;
         return false;
+    } else {
+        return true;
     }
 
-    auto target = board.pieceAt(move.to).lock();
+    // auto target = board.pieceAt(move.to).lock();
 }
