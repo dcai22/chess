@@ -5,6 +5,12 @@
 #include "helper.h"
 #include "move.h"
 #include "square.h"
+#include "pieces/rook.h"
+#include "pieces/knight.h"
+#include "pieces/bishop.h"
+#include "pieces/queen.h"
+#include "pieces/king.h"
+#include "pieces/pawn.h"
 
 Board::Board() {
     for (auto col = 0; col < 8; col++) {

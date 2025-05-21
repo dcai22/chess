@@ -1,8 +1,10 @@
 #pragma once
 
-#include "board.h"
-#include "move.h"
 #include "types.h"
+
+// forward declarations
+class Board;
+class Move;
 
 class MoveValidator {
  public:

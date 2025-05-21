@@ -6,15 +6,13 @@
 #include <string>
 
 #include "pieces/piece.h"
-#include "pieces/pawn.h"
-#include "pieces/rook.h"
-#include "pieces/knight.h"
-#include "pieces/bishop.h"
-#include "pieces/queen.h"
-#include "pieces/king.h"
 #include "constants.h"
+#include "board.h"
 #include "move.h"
-#include "square.h"
+
+// forward declarations
+class Move;
+class Square;
 
 class Board {
  private:

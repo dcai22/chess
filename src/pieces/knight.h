@@ -1,9 +1,10 @@
 #pragma once
 
 #include "piece.h"
-#include "../types.h"
 
 class Knight : public Piece {
  public:
     Knight(const PieceColour colour);
+
+    auto canDoMove(const Board& board, const Move& move) const -> bool override;
 };

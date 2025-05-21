@@ -1,6 +1,9 @@
 #include <iostream>
+#include <optional>
 
 #include "move_validator.h"
+#include "board.h"
+#include "move.h"
 
 auto MoveValidator::isValidMove(const Board& board, const Move& move, const PieceColour playerColour) -> bool {
     auto movingPiece = board.pieceAt(move.from).lock();
@@ -17,6 +20,11 @@ auto MoveValidator::isValidMove(const Board& board, const Move& move, const Piec
     
     if (move.from == move.to) {
         std::cout << "Start and end square cannot be the same" << std::endl;
+        return false;
+    }
+
+    if (!movingPiece->canDoMove(board, move)) {
+        std::cout << "That piece cannot move there!" << std::endl;
         return false;
     }
 

@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "helper.h"
 
 auto splitByWhitespace(const std::string& str) -> std::vector<std::string> {
