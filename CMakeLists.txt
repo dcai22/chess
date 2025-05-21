@@ -55,5 +55,5 @@ set(CMAKE_CXX_EXE_LINKER_FLAGS_RELWITHDEBINFO_INIT "-fsanitize=address,undefined
 # -------------- DO NOT MODIFY ABOVE THIS LINE --------------- #
 # ------------------------------------------------------------ #
 
-file(GLOB SOURCES src/*.cpp)
+file(GLOB_RECURSE SOURCES src/*.cpp)
 add_executable(chess ${SOURCES})

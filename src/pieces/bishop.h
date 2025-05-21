@@ -2,7 +2,7 @@
 #define BISHOP_H
 
 #include "piece.h"
-#include "types.h"
+#include "../types.h"
 
 class Bishop : public Piece {
  public:

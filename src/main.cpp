@@ -12,17 +12,14 @@ auto main() -> int {
         std::cout << std::endl;
         switch (game.getColourToMove()) {
             case PieceColour::White:
-            std::cout << "White to move!" << std::endl;
-            break;
-            
+                std::cout << "White to move!" << std::endl;
+                break;
+
             case PieceColour::Black:
-            std::cout << "Black to move!" << std::endl;
-            break;
-            
-            default:
-            break;
+                std::cout << "Black to move!" << std::endl;
+                break;
         }
-        
+
         auto move = std::string();
         std::getline(std::cin >> std::ws, move);
         while (!Game::isValidMove(move)) {
@@ -38,14 +35,11 @@ auto main() -> int {
     if (game.getWinner().has_value()) {
         switch(game.getWinner().value()) {
             case PieceColour::White:
-                std::cout << "Winner: White!" << std::endl;
-                break;
-            
-            case PieceColour::Black:
-                std::cout << "Winner: Black!" << std::endl;
+                std::cout << "Winner: White" << std::endl;
                 break;
 
-            default:
+            case PieceColour::Black:
+                std::cout << "Winner: Black" << std::endl;
                 break;
         }
     } else {

@@ -36,8 +36,8 @@ Board::Board() {
 }
 
 auto Board::updateHasKing() -> void {
-    auto foundWhiteKing = false;
-    auto foundBlackKing = false;
+    auto whiteHasKing = false;
+    auto blackHasKing = false;
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
             if (board_[row][col] == nullptr) {
@@ -45,15 +45,15 @@ auto Board::updateHasKing() -> void {
             }
             auto symbol = board_[row][col]->getSymbol();
             if (symbol == 'K') {
-                foundWhiteKing = true;
+                whiteHasKing = true;
             } else if (symbol == 'k') {
-                foundBlackKing = true;
+                blackHasKing = true;
             }
         }
     }
 
-    whiteHasKing = foundWhiteKing;
-    blackHasKing = foundBlackKing;
+    whiteHasKing_ = whiteHasKing;
+    blackHasKing_ = blackHasKing;
 }
 
 auto Board::processMove(const std::string& move) -> bool {
@@ -79,13 +79,13 @@ auto Board::printState() const -> void {
 }
 
 auto Board::hasEnded() const -> bool {
-    return !(whiteHasKing && blackHasKing);
+    return !(whiteHasKing_ && blackHasKing_);
 }
 
 auto Board::getWinner() const -> std::optional<PieceColour> {
-    if (whiteHasKing && !blackHasKing) {
+    if (whiteHasKing_ && !blackHasKing_) {
         return std::make_optional(PieceColour::White);
-    } else if (!whiteHasKing && blackHasKing) {
+    } else if (!whiteHasKing_ && blackHasKing_) {
         return std::make_optional(PieceColour::Black);
     } else {
         return std::nullopt;

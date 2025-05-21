@@ -1,0 +1,27 @@
+#include <string>
+#include <stdexcept>
+
+#include "piece.h"
+
+Piece::Piece(double value, char symbol, PieceColour colour)
+: value_(value)
+, symbol_(symbol)
+, colour_(colour)
+{}
+
+auto Piece::getValue() const -> double {
+    return value_;
+}
+
+auto Piece::getSymbol() const -> char {
+    switch (colour_) {
+        case PieceColour::White:
+            return static_cast<char>(std::toupper(symbol_));
+
+        case PieceColour::Black:
+            return static_cast<char>(std::tolower(symbol_));
+
+        default:
+            throw std::logic_error("Piece does not have a colour");
+    }
+}

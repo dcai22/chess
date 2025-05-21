@@ -2,7 +2,7 @@
 #define QUEEN_H
 
 #include "piece.h"
-#include "types.h"
+#include "../types.h"
 
 class Queen : public Piece {
  public:

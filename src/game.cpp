@@ -5,21 +5,18 @@
 #include "helper.h"
 
 Game::Game()
-: board(Board())
+: board_(Board())
 {}
 
 auto Game::processMove(const std::string& move) -> bool {
-    if (this->board.processMove(move)) {
-        switch (this->colourToMove) {
+    if (board_.processMove(move)) {
+        switch (colourToMove_) {
             case PieceColour::White:
-                this->colourToMove = PieceColour::Black;
-                break;
-            
-            case PieceColour::Black:
-                this->colourToMove = PieceColour::White;
+                colourToMove_ = PieceColour::Black;
                 break;
 
-            default:
+            case PieceColour::Black:
+                colourToMove_ = PieceColour::White;
                 break;
         }
 
@@ -30,19 +27,19 @@ auto Game::processMove(const std::string& move) -> bool {
 }
 
 auto Game::printBoard() const -> void {
-    this->board.printState();
+    board_.printState();
 }
 
 auto Game::getWinner() const -> std::optional<PieceColour> {
-    return this->board.getWinner();
+    return board_.getWinner();
 }
 
 auto Game::hasEnded() const -> bool {
-    return this->board.hasEnded();
+    return board_.hasEnded();
 }
 
 auto Game::getColourToMove() const -> PieceColour {
-    return this->colourToMove;
+    return colourToMove_;
 }
 
 auto Game::isValidMove(std::string move) -> bool {

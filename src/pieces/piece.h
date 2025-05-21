@@ -1,17 +1,17 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include "types.h"
+#include "../types.h"
 
 class Piece {
  private:
-    double value;
-    char symbol;
-    PieceColour colour;
+    double value_;
+    char symbol_;
+    PieceColour colour_;
 
  protected:
     Piece(double value, char symbol, PieceColour colour);
-    
+
     public:
     auto getValue() const -> double;
     auto getSymbol() const -> char;

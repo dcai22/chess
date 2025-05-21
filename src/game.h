@@ -9,8 +9,8 @@
 
 class Game {
  private:
-    Board board;
-    PieceColour colourToMove = PieceColour::White;
+    Board board_;
+    PieceColour colourToMove_ = PieceColour::White;
 
  public:
     Game();
