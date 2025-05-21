@@ -17,7 +17,7 @@
 
 class Board {
  private:
-    std::unique_ptr<Piece> board_[Constants::BOARD_SIZE][Constants::BOARD_SIZE]; // e.g. e2 corresponds to board_[3][1] because 'e' -> 3 and '2' -> 1
+    std::unique_ptr<Piece> board_[Constants::BOARD_SIZE][Constants::BOARD_SIZE]; // board_[row][col], row starts from '1', col starts from 'a', e.g. "e2" -> board_[1][3]
     bool whiteHasKing_ = true;
     bool blackHasKing_ = true;
 
