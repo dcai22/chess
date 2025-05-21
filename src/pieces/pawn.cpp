@@ -43,7 +43,7 @@ auto Pawn::canDoMove(const Board& board, const Move& move) const -> bool {
 
         const auto to = Square(toRow, toCol);
         const auto toPiece = board.pieceAt(to).lock();
-        if (toPiece && toPiece->getColour() != getColour()) {
+        if (toPiece && toPiece->getColour() != getColour() && to == move.to) {
             return true;
         }
     }
