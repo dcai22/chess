@@ -1,6 +1,6 @@
 #include <string>
 
-#include "Piece.h"
+#include "piece.h"
 
 Piece::Piece(double value, char symbol, PieceColour colour)
 : value(value)

@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "Board.h"
+#include "board.h"
+#include "helper.h"
 
 Board::Board() {
     for (auto col = 0; col < 8; col++) {
@@ -33,11 +34,38 @@ Board::Board() {
     }
 }
 
+auto Board::processMove(const std::string& move) -> bool {
+    const auto squares = splitByWhitespace(move);
+    const auto col1 = squares[0][0] - 'a';
+    const auto row1 = squares[0][1] - '1';
+    const auto col2 = squares[1][0] - 'a';
+    const auto row2 = squares[1][1] - '1';
+
+    board_[row2][col2] = std::move(board_[row1][col1]);
+
+    return true;
+}
+
 auto Board::printState() const -> void {
     for (auto row = 7; row >= 0; row--) {
         for (auto col = 0; col < 8; col++) {
             std::cout << (this->board_[row][col] == nullptr ? '.' : this->board_[row][col]->getSymbol()) << " ";
         }
         std::cout << std::endl;
+    }
+}
+
+auto Board::isValidSquare(const std::string& str) -> bool {
+    if (str.size() != 2) {
+        return false;
+    }
+
+    const auto x = str[0] - 'a';
+    const auto y = str[1] - '1';
+    if ((0 <= x && x < Constants::BOARD_SIZE) &&
+        (0 <= y && y < Constants::BOARD_SIZE)) {
+        return true;
+    } else {
+        return false;
     }
 }

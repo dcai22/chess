@@ -1,8 +1,8 @@
 #ifndef BISHOP_H
 #define BISHOP_H
 
-#include "Piece.h"
-#include "Types.h"
+#include "piece.h"
+#include "types.h"
 
 class Bishop : public Piece {
  public:

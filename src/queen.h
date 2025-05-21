@@ -1,8 +1,8 @@
 #ifndef QUEEN_H
 #define QUEEN_H
 
-#include "Piece.h"
-#include "Types.h"
+#include "piece.h"
+#include "types.h"
 
 class Queen : public Piece {
  public:

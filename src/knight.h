@@ -1,8 +1,8 @@
 #ifndef KNIGHT_H
 #define KNIGHT_H
 
-#include "Piece.h"
-#include "Types.h"
+#include "piece.h"
+#include "types.h"
 
 class Knight : public Piece {
  public:
