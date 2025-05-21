@@ -35,7 +35,3 @@ auto Square::isValid(const int row, const int col) -> bool {
 auto Square::operator==(const Square& other) const -> bool {
     return row == other.row && col == other.col;
 }
-
-auto Square::operator!=(const Square& other) const -> bool {
-    return !(*this == other);
-}

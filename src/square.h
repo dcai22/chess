@@ -11,5 +11,4 @@ class Square {
     static auto isValid(const int row, const int col) -> bool;
 
     auto operator==(const Square& other) const -> bool;
-    auto operator!=(const Square& other) const -> bool;
 };
