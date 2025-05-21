@@ -5,5 +5,5 @@
 
 class Rook : public Piece {
  public:
-    Rook(PieceColour colour);
+    Rook(const PieceColour colour);
 };

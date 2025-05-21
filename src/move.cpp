@@ -1,7 +1,7 @@
 #include "move.h"
 #include "helper.h"
 
-Move::Move(Square from, Square to)
+Move::Move(const Square from, const Square to)
 : from(from)
 , to(to)
 {}

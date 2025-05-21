@@ -3,7 +3,7 @@
 
 #include "piece.h"
 
-Piece::Piece(double value, char symbol, PieceColour colour)
+Piece::Piece(const double value, const char symbol, const PieceColour colour)
 : value_(value)
 , symbol_(symbol)
 , colour_(colour)

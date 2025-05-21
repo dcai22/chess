@@ -9,7 +9,7 @@ class Piece {
     PieceColour colour_;
 
  protected:
-    Piece(double value, char symbol, PieceColour colour);
+    Piece(const double value, const char symbol, const PieceColour colour);
 
     public:
     auto getValue() const -> double;

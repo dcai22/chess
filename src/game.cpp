@@ -9,7 +9,8 @@ Game::Game()
 {}
 
 auto Game::processMove(const Move& move) -> bool {
-    if (moveValidator_.isValidMove(board_, move) && board_.processMove(move)) {
+    if (moveValidator_.isValidMove(board_, move)) {
+        board_.processMove(move);
         switch (colourToMove_) {
             case PieceColour::White:
                 colourToMove_ = PieceColour::Black;
@@ -19,7 +20,6 @@ auto Game::processMove(const Move& move) -> bool {
                 colourToMove_ = PieceColour::White;
                 break;
         }
-
         return true;
     } else {
         return false;

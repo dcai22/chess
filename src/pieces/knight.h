@@ -5,5 +5,5 @@
 
 class Knight : public Piece {
  public:
-    Knight(PieceColour colour);
+    Knight(const PieceColour colour);
 };

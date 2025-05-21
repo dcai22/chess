@@ -5,5 +5,5 @@
 
 class Pawn : public Piece {
  public:
-    Pawn(PieceColour colour);
+    Pawn(const PieceColour colour);
 };

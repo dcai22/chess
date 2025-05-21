@@ -5,5 +5,5 @@
 
 class Queen : public Piece {
  public:
-    Queen(PieceColour colour);
+    Queen(const PieceColour colour);
 };

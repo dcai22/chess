@@ -5,5 +5,5 @@
 
 class Bishop : public Piece {
  public:
-    Bishop(PieceColour colour);
+    Bishop(const PieceColour colour);
 };

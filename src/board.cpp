@@ -57,10 +57,9 @@ auto Board::updateHasKing() -> void {
     blackHasKing_ = blackHasKing;
 }
 
-auto Board::processMove(const Move& move) -> bool {
+auto Board::processMove(const Move& move) -> void {
     board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
     updateHasKing();
-    return true;
 }
 
 auto Board::printState() const -> void {

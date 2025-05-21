@@ -10,7 +10,7 @@ class Move {
     Square from;
     Square to;
 
-    Move(Square from, Square to);
+    Move(const Square from, const Square to);
 
     static auto fromStr(const std::string& command) -> std::optional<Move>;
 };
