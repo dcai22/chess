@@ -78,9 +78,9 @@ auto Board::hasEnded() const -> bool {
 
 auto Board::getWinner() const -> std::optional<PieceColour> {
     if (whiteHasKing_ && !blackHasKing_) {
-        return std::make_optional(PieceColour::White);
+        return PieceColour::White;
     } else if (!whiteHasKing_ && blackHasKing_) {
-        return std::make_optional(PieceColour::Black);
+        return PieceColour::Black;
     } else {
         return std::nullopt;
     }
