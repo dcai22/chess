@@ -9,9 +9,10 @@ class Game {
  private:
     Board board_;
     PieceColour colourToMove_ = PieceColour::White;
-    int numMoves_ = 0;
+    std::vector<Move> moves_ = std::vector<Move>();
 
-    auto isValidMove(const Move& move) const -> bool;
+    auto validateMove(const Move& move) const -> MoveType;
+    auto validateEnPassant(const Move& move) const -> bool;
 
  public:
     Game();

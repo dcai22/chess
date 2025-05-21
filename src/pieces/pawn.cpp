@@ -42,17 +42,16 @@ auto Pawn::deduceMoveType(const Board& board, const Move& move) const -> MoveTyp
             if (toPiece && toPiece->getColour() != getColour() && to == move.to) {
                 return MoveType::Capture;
             }
-        }
 
-
-        // en-passant
-        const auto enPassantRow = fromRow;
-        const auto enPassantCol = fromCol + colStep;
-        if (Square::isValid(enPassantRow, enPassantCol)) {
-            const auto enPassantSquare = Square(enPassantRow, enPassantCol);
-            const auto enPassantPiece = board.pieceAt(enPassantSquare).lock();
-            if (enPassantPiece && enPassantPiece->getColour() != getColour() && enPassantSquare == move.to) {
-                return MoveType::EnPassant;
+            // en-passant
+            const auto enPassantRow = fromRow;
+            const auto enPassantCol = fromCol + colStep;
+            if (Square::isValid(enPassantRow, enPassantCol)) {
+                const auto enPassantSquare = Square(enPassantRow, enPassantCol);
+                const auto enPassantPiece = board.pieceAt(enPassantSquare).lock();
+                if (enPassantPiece && enPassantPiece->getSymbol() == Constants::PAWN_SYMBOL && enPassantPiece->getColour() != getColour() && to == move.to) {
+                    return MoveType::EnPassant;
+                }
             }
         }
     }

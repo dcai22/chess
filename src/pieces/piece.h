@@ -19,6 +19,7 @@ class Piece {
     public:
     auto getValue() const -> double;
     auto getSymbol() const -> char;
+    auto getDisplaySymbol() const -> char;
     auto getColour() const -> PieceColour;
     auto getLastMoved() const -> int;
     auto hasMoved() const -> bool;

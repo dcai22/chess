@@ -15,9 +15,9 @@ Here is a checklist of rules to implement:
     - Pawn:
         - Can move, but not capture, 1 unit forward                                                                         DONE
         - On its first move, it may move, but not capture, 2 units forward, if the square in front is empty                 DONE
-        - Captures can only be made 1 unit diagonally forward (captures 1 unit forward are not allowed)
-        - En-passant
-            - If your opponent's previous move was a pawn moving 2 spaces forward, landing your pawn's left or right,
+        - Captures can only be made 1 unit diagonally forward (captures 1 unit forward are not allowed)                     DONE
+        - En-passant                                                                                                        
+            - If your opponent's previous move was a pawn moving 2 spaces forward, landing on your pawn's left or right,
               you may move your piece diagonally forward in that direction to capture the opponent's pawn
         - Promotion
             - If your pawn reaches the end of the board (8th rank for white, 1st rank for black), it is
@@ -25,19 +25,19 @@ Here is a checklist of rules to implement:
             - The new piece should copy the Piece properties from the pawn to avoid bad castling logic
             - I will promote to a Queen by default (promotion to any piece will be done in the future)
     - Rook:
-        - Line of sight is horizontal and vertical
-        - Can only move/capture in its line of sight
+        - Line of sight is horizontal and vertical                                                                          DONE
+        - Can only move/capture in its line of sight                                                                        DONE
         - Is moved when castling (see King)
     - Knight:
-        - Can only move/capture in an L-shape
+        - Can only move/capture in an L-shape                                                                               DONE
     - Bishop:
-        - Line of sight is along the diagonals
-        - Can only move/capture in its line of sight
+        - Line of sight is along the diagonals                                                                              DONE
+        - Can only move/capture in its line of sight                                                                        DONE
     - Queen:
-        - Line of sight is horizontal, vertical, and along the diagonals
-        - Can only move/capture in its line of sight
+        - Line of sight is horizontal, vertical, and along the diagonals                                                    DONE
+        - Can only move/capture in its line of sight                                                                        DONE
     - King:
-        - Can move/capture 1 unit in any direction (including diagonally)
+        - Can move/capture 1 unit in any direction (including diagonally)                                                   DONE
         - Castling
             - Only on its first move
             - King moves 2 units to its right (Kingside), or left (Queenside)

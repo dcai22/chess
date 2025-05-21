@@ -51,7 +51,7 @@ auto Board::updateHasKing() -> void {
             if (board_[row][col] == nullptr) {
                 continue;
             }
-            auto symbol = board_[row][col]->getSymbol();
+            auto symbol = board_[row][col]->getDisplaySymbol();
             if (symbol == 'K') {
                 whiteHasKing = true;
             } else if (symbol == 'k') {
@@ -65,16 +65,25 @@ auto Board::updateHasKing() -> void {
 }
 
 // precondition: there is a piece on move.from
-auto Board::executeMove(const Move& move, const int& moveNum) -> void {
+auto Board::executeMove(const Move& move, const MoveType& moveType, const int& moveNum) -> void {
     board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
     board_[move.to.row][move.to.col]->setLastMoved(moveNum);
+
+    switch (moveType) {
+        case MoveType::EnPassant:
+            board_[move.from.row][move.to.col].reset();
+
+        default:
+            return;
+    }
+
     updateHasKing();
 }
 
 auto Board::printState() const -> void {
     for (auto row = 7; row >= 0; row--) {
         for (auto col = 0; col < 8; col++) {
-            std::cout << (board_[row][col] == nullptr ? '.' : board_[row][col]->getSymbol()) << " ";
+            std::cout << (board_[row][col] == nullptr ? '.' : board_[row][col]->getDisplaySymbol()) << " ";
         }
         std::cout << std::endl;
     }

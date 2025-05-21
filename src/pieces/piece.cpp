@@ -14,6 +14,10 @@ auto Piece::getValue() const -> double {
 }
 
 auto Piece::getSymbol() const -> char {
+    return symbol_;
+}
+
+auto Piece::getDisplaySymbol() const -> char {
     switch (colour_) {
         case PieceColour::White:
             return static_cast<char>(std::toupper(symbol_));

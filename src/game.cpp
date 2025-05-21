@@ -10,8 +10,12 @@ Game::Game()
 {}
 
 auto Game::processMove(const Move& move) -> bool {
-    if (isValidMove(move)) {
-        board_.executeMove(move, ++numMoves_);
+    const auto moveType = validateMove(move);
+    if (moveType == MoveType::None) {
+        return false;
+    } else {
+        moves_.push_back(move);
+        board_.executeMove(move, moveType, static_cast<int>(moves_.size()) + 1);
         switch (colourToMove_) {
             case PieceColour::White:
                 colourToMove_ = PieceColour::Black;
@@ -22,8 +26,6 @@ auto Game::processMove(const Move& move) -> bool {
                 break;
         }
         return true;
-    } else {
-        return false;
     }
 }
 
@@ -43,48 +45,65 @@ auto Game::getColourToMove() const -> PieceColour {
     return colourToMove_;
 }
 
-auto Game::isValidMove(const Move& move) const -> bool {
+auto Game::validateMove(const Move& move) const -> MoveType {
     auto movingPiece = board_.pieceAt(move.from).lock();
 
     if (!movingPiece) {
         std::cout << "There is no piece there!" << std::endl;
-        return false;
+        return MoveType::None;
     }
 
     if (movingPiece->getColour() != colourToMove_) {
         std::cout << "That piece does not belong to you!" << std::endl;
-        return false;
+        return MoveType::None;
     }
     
     if (move.from == move.to) {
         std::cout << "Start and end square cannot be the same" << std::endl;
-        return false;
+        return MoveType::None;
     }
 
     auto intendedMoveType = movingPiece->deduceMoveType(board_, move);
     switch(intendedMoveType) {
         case MoveType::None:
             std::cout << "That piece cannot move there!" << std::endl;
-            return false;
+            return MoveType::None;
 
-        // TODO
+        // TODO: validate that the end position isn't a check
         case MoveType::Move:
-            return true;
+            return intendedMoveType;
 
         case MoveType::Capture:
-            return true;
+            return intendedMoveType;
 
         case MoveType::KingsideCastle:
-            return true;
+            return intendedMoveType;
 
         case MoveType::QueensideCastle:
-            return true;
+            return intendedMoveType;
 
         case MoveType::EnPassant:
-            return true;
+            if (!validateEnPassant(move)) {
+                std::cout << "Invalid en-passant" << std::endl;
+                return MoveType::None;
+            } else {
+                return MoveType::EnPassant;
+            }
     }
 
-    // auto target = board.pieceAt(move.to).lock();
+    return intendedMoveType;
+}
 
-    return true;
+auto Game::validateEnPassant(const Move& move) const -> bool {
+    if (moves_.empty()) {
+        return false;
+    }
+
+    const auto enPassantSquare = Square(move.from.row, move.to.col);
+    const auto lastMove = moves_[moves_.size() - 1];
+    if (enPassantSquare == lastMove.to && abs(lastMove.to.row - lastMove.from.row) == 2) {
+        return true;
+    } else {
+        return false;
+    }
 }
