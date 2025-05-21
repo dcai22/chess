@@ -34,11 +34,11 @@ auto Game::printBoard() const -> void {
 }
 
 auto Game::getWinner() const -> std::optional<PieceColour> {
-    return this->winner;
+    return this->board.getWinner();
 }
 
-auto Game::getHasEnded() const -> bool {
-    return this->hasEnded;
+auto Game::hasEnded() const -> bool {
+    return this->board.hasEnded();
 }
 
 auto Game::getColourToMove() const -> PieceColour {

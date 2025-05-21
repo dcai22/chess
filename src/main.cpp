@@ -8,7 +8,7 @@ auto main() -> int {
     auto game = Game();
     game.printBoard();
 
-    while (!game.getHasEnded()) {
+    while (!game.hasEnded()) {
         std::cout << std::endl;
         switch (game.getColourToMove()) {
             case PieceColour::White:

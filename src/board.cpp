@@ -1,4 +1,5 @@
 #include <iostream>
+#include <optional>
 
 #include "board.h"
 #include "helper.h"
@@ -34,6 +35,27 @@ Board::Board() {
     }
 }
 
+auto Board::updateHasKing() -> void {
+    auto foundWhiteKing = false;
+    auto foundBlackKing = false;
+    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+            if (board_[row][col] == nullptr) {
+                continue;
+            }
+            auto symbol = board_[row][col]->getSymbol();
+            if (symbol == 'K') {
+                foundWhiteKing = true;
+            } else if (symbol == 'k') {
+                foundBlackKing = true;
+            }
+        }
+    }
+
+    whiteHasKing = foundWhiteKing;
+    blackHasKing = foundBlackKing;
+}
+
 auto Board::processMove(const std::string& move) -> bool {
     const auto squares = splitByWhitespace(move);
     const auto col1 = squares[0][0] - 'a';
@@ -43,15 +65,30 @@ auto Board::processMove(const std::string& move) -> bool {
 
     board_[row2][col2] = std::move(board_[row1][col1]);
 
+    updateHasKing();
     return true;
 }
 
 auto Board::printState() const -> void {
     for (auto row = 7; row >= 0; row--) {
         for (auto col = 0; col < 8; col++) {
-            std::cout << (this->board_[row][col] == nullptr ? '.' : this->board_[row][col]->getSymbol()) << " ";
+            std::cout << (board_[row][col] == nullptr ? '.' : board_[row][col]->getSymbol()) << " ";
         }
         std::cout << std::endl;
+    }
+}
+
+auto Board::hasEnded() const -> bool {
+    return !(whiteHasKing && blackHasKing);
+}
+
+auto Board::getWinner() const -> std::optional<PieceColour> {
+    if (whiteHasKing && !blackHasKing) {
+        return std::make_optional(PieceColour::White);
+    } else if (!whiteHasKing && blackHasKing) {
+        return std::make_optional(PieceColour::Black);
+    } else {
+        return std::nullopt;
     }
 }
 

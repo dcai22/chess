@@ -10,8 +10,6 @@
 class Game {
  private:
     Board board;
-    std::optional<PieceColour> winner = std::nullopt;
-    bool hasEnded = false;
     PieceColour colourToMove = PieceColour::White;
 
  public:
@@ -21,7 +19,7 @@ class Game {
     auto printBoard() const -> void;
 
     auto getWinner() const -> std::optional<PieceColour>;
-    auto getHasEnded() const -> bool;
+    auto hasEnded() const -> bool;
     auto getColourToMove() const -> PieceColour;
 
     static auto isValidMove(std::string move) -> bool;
