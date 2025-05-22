@@ -7,6 +7,10 @@ Rook::Rook(const PieceColour colour)
 : Piece(Constants::ROOK_SYMBOL, Constants::ROOK_SYMBOL, colour)
 {}
 
+auto Rook::isAttack(const Board& board, const Move& move) const -> bool {
+    return deduceMoveType(board, move) != MoveType::None;
+}
+
 auto Rook::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;

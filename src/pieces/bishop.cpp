@@ -11,11 +11,15 @@ Bishop::Bishop(const PieceColour colour)
 : Piece(Constants::BISHOP_VALUE, Constants::BISHOP_SYMBOL, colour)
 {}
 
+auto Bishop::isAttack(const Board& board, const Move& move) const -> bool {
+    return deduceMoveType(board, move) != MoveType::None;
+}
+
 auto Bishop::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;
 
-    const auto directions = std::vector<std::vector<int>>({{1, 1}, {1, -1}, {-1, 1}, {-1, 1}});
+    const auto directions = std::vector<std::vector<int>>({{1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
     for (const auto& direction : directions) {
         auto toRow = fromRow;
         auto toCol = fromCol;

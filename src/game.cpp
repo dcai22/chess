@@ -15,16 +15,8 @@ auto Game::processMove(const Move& move) -> bool {
         return false;
     } else {
         moves_.push_back(move);
-        board_.executeMove(move, moveType, static_cast<int>(moves_.size()) + 1);
-        switch (colourToMove_) {
-            case PieceColour::White:
-                colourToMove_ = PieceColour::Black;
-                break;
-
-            case PieceColour::Black:
-                colourToMove_ = PieceColour::White;
-                break;
-        }
+        board_.processMove(move, moveType, static_cast<int>(moves_.size()) + 1);
+        colourToMove_ = oppositeColour(colourToMove_);
         return true;
     }
 }
@@ -71,24 +63,29 @@ auto Game::validateMove(const Move& move) const -> MoveType {
 
         // TODO: validate that the end position isn't a check
         case MoveType::Move:
-            return intendedMoveType;
+            break;
 
         case MoveType::Capture:
-            return intendedMoveType;
+            break;
 
         case MoveType::KingsideCastle:
-            return intendedMoveType;
+            break;
 
         case MoveType::QueensideCastle:
-            return intendedMoveType;
+            break;
 
         case MoveType::EnPassant:
             if (!validateEnPassant(move)) {
                 std::cout << "Invalid en-passant" << std::endl;
                 return MoveType::None;
-            } else {
-                return MoveType::EnPassant;
             }
+    }
+
+    auto dupBoard = board_;
+    dupBoard.executeMove(move, intendedMoveType);
+    if (dupBoard.isInCheck(colourToMove_)) {
+        std::cout << "Move would result in check" << std::endl;
+        return MoveType::None;
     }
 
     return intendedMoveType;

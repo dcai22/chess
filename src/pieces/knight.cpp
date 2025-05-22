@@ -7,6 +7,25 @@ Knight::Knight(const PieceColour colour)
 : Piece(Constants::KNIGHT_SYMBOL, Constants::KNIGHT_SYMBOL, colour)
 {}
 
+auto Knight::isAttack(const Board& board, const Move& move) const -> bool {
+    const auto from = move.from;
+    const auto to = move.to;
+    const auto toPiece = board.pieceAt(to).lock();
+    if (toPiece && toPiece->getColour() == getColour()) {
+        return false;
+    }
+
+    const auto directions = std::vector<std::vector<int>>({{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}});
+    for (const auto& direction : directions) {
+        const auto rowStep = direction[0];
+        const auto colStep = direction[1];
+        if (from.row + rowStep == to.row && from.col + colStep == to.col) {
+            return true;
+        }
+    }
+    return false;
+}
+
 auto Knight::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;

@@ -11,3 +11,7 @@ auto splitByWhitespace(const std::string& str) -> std::vector<std::string> {
     }
     return tokens;
 }
+
+auto oppositeColour(const PieceColour& colour) -> PieceColour {
+    return colour == PieceColour::White ? PieceColour::Black : PieceColour::White;
+}

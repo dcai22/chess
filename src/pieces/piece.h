@@ -26,6 +26,7 @@ class Piece {
 
     auto setLastMoved(const int& moveNum) -> void;
 
+    virtual auto isAttack(const Board& board, const Move& move) const -> bool = 0;
     virtual auto deduceMoveType(const Board& board, const Move& move) const -> MoveType = 0;
 
     virtual ~Piece() = default;

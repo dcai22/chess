@@ -64,11 +64,21 @@ auto Board::updateHasKing() -> void {
     blackHasKing_ = blackHasKing;
 }
 
-// precondition: there is a piece on move.from
-auto Board::executeMove(const Move& move, const MoveType& moveType, const int& moveNum) -> void {
-    board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
-    board_[move.to.row][move.to.col]->setLastMoved(moveNum);
+auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Square> {
+    const auto targetSymbol = King(colour).getDisplaySymbol();
+    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+            if (board_[row][col] && board_[row][col]->getDisplaySymbol() == targetSymbol) {
+                return Square(row, col);
+            }
+        }
+    }
+    return std::nullopt;
+}
 
+auto Board::executeMove(const Move& move, const MoveType& moveType) -> void {
+    board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
+    
     switch (moveType) {
         case MoveType::EnPassant:
             board_[move.from.row][move.to.col].reset();
@@ -76,7 +86,12 @@ auto Board::executeMove(const Move& move, const MoveType& moveType, const int& m
         default:
             return;
     }
+}
 
+// precondition: there is a piece on move.from
+auto Board::processMove(const Move& move, const MoveType& moveType, const int moveNum) -> void {
+    executeMove(move, moveType);
+    board_[move.to.row][move.to.col]->setLastMoved(moveNum);
     updateHasKing();
 }
 
@@ -105,4 +120,29 @@ auto Board::getWinner() const -> std::optional<PieceColour> {
 
 auto Board::pieceAt(const Square& square) const -> std::weak_ptr<Piece> {
     return board_[square.row][square.col];
+}
+
+auto Board::isSquareAttacked(const Square& square, const PieceColour& byColour) -> bool {
+    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+            if (board_[row][col] == nullptr || board_[row][col]->getColour() != byColour) {
+                continue;
+            }
+            const auto from = Square(row, col);
+            const auto move = Move(from, square);
+            if (board_[row][col]->isAttack(*this, move)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+auto Board::isInCheck(const PieceColour& playerColour) -> bool {
+    const auto kingSquareOpt = getKingSquare(playerColour);
+    if (kingSquareOpt.has_value()) {
+        return isSquareAttacked(kingSquareOpt.value(), oppositeColour(playerColour));
+    } else {
+        return false;
+    }
 }

@@ -7,12 +7,15 @@ Queen::Queen(const PieceColour colour)
 : Piece(Constants::QUEEN_SYMBOL, Constants::QUEEN_SYMBOL, colour)
 {}
 
+auto Queen::isAttack(const Board& board, const Move& move) const -> bool {
+    return deduceMoveType(board, move) != MoveType::None;
+}
 
 auto Queen::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;
 
-    const auto directions = std::vector<std::vector<int>>({{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, 1}});
+    const auto directions = std::vector<std::vector<int>>({{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
     for (const auto& direction : directions) {
         auto toRow = fromRow;
         auto toCol = fromCol;

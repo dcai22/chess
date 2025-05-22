@@ -7,12 +7,17 @@ King::King(const PieceColour colour)
 : Piece(Constants::KING_VALUE, Constants::KING_SYMBOL, colour)
 {}
 
+auto King::isAttack(const Board& board, const Move& move) const -> bool {
+    const auto moveType = deduceMoveType(board, move);
+    return moveType == MoveType::Move || moveType == MoveType::Capture;
+}
+
 // TODO: castling logic
 auto King::deduceMoveType(const Board& board, const Move& move) const -> MoveType {
     const auto fromRow = move.from.row;
     const auto fromCol = move.from.col;
 
-    const auto directions = std::vector<std::vector<int>>({{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, 1}});
+    const auto directions = std::vector<std::vector<int>>({{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
     for (const auto& direction : directions) {
         const auto toRow = fromRow + direction[0];
         const auto toCol = fromCol + direction[1];
