@@ -19,11 +19,10 @@ Here is a checklist of rules to implement:
         - En-passant                                                                                                        DONE
             - If your opponent's previous move was a pawn moving 2 spaces forward, landing on your pawn's left or right,
               you may move your piece diagonally forward in that direction to capture the opponent's pawn
-        - Promotion
+        - Promotion                                                                                                         DONE
             - If your pawn reaches the end of the board (8th rank for white, 1st rank for black), it is
               replaced with any piece (but not pawn) of your choosing
             - The new piece should copy the Piece properties from the pawn to avoid bad castling logic
-            - I will promote to a Queen by default (promotion to any piece will be done in the future)
     - Rook:
         - Line of sight is horizontal and vertical                                                                          DONE
         - Can only move/capture in its line of sight                                                                        DONE
@@ -38,7 +37,7 @@ Here is a checklist of rules to implement:
         - Can only move/capture in its line of sight                                                                        DONE
     - King:
         - Can move/capture 1 unit in any direction (including diagonally)                                                   DONE
-        - Castling
+        - Castling                                                                                                          DONE
             - Only on its first move
             - King moves 2 units to its right (Kingside), or left (Queenside)
             - The Rook in the direction of castling cannot have moved

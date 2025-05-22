@@ -78,10 +78,31 @@ auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Squa
 
 auto Board::executeMove(const Move& move, const MoveType& moveType) -> void {
     board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
-    
+    board_[move.from.row][move.from.col].reset();
+
     switch (moveType) {
-        case MoveType::EnPassant:
+        case MoveType::KingsideCastle: {
+            const auto middleRow = move.from.row;
+            const auto middleCol = (move.from.col + move.to.col) / 2;
+            const auto rookRow = move.from.row;
+            const auto rookCol = 7;
+            board_[middleRow][middleCol] = std::move(board_[rookRow][rookCol]);
+            break;
+        }
+
+        case MoveType::QueensideCastle: {
+            const auto middleRow = move.from.row;
+            const auto middleCol = (move.from.col + move.to.col) / 2;
+            const auto rookRow = move.from.row;
+            const auto rookCol = 0;
+            board_[middleRow][middleCol] = std::move(board_[rookRow][rookCol]);
+            break;
+        }
+
+        case MoveType::EnPassant: {
             board_[move.from.row][move.to.col].reset();
+            break;
+        }
 
         default:
             return;
@@ -146,7 +167,15 @@ auto Board::processMove(const Move& move, const MoveType& moveType, const int mo
             }
         }
     }
+
     piece->setLastMoved(moveNum);
+    // castled
+    if (moveType == MoveType::KingsideCastle || moveType == MoveType::QueensideCastle) {
+        const auto middleRow = move.from.row;
+        const auto middleCol = (move.from.col + move.to.col) / 2;
+        board_[middleRow][middleCol]->setLastMoved(moveNum);
+    }
+
     updateHasKing();
 }
 
@@ -177,7 +206,7 @@ auto Board::pieceAt(const Square& square) const -> std::weak_ptr<Piece> {
     return board_[square.row][square.col];
 }
 
-auto Board::isSquareAttacked(const Square& square, const PieceColour& byColour) -> bool {
+auto Board::isSquareAttacked(const Square& square, const PieceColour& byColour) const -> bool {
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
             if (board_[row][col] == nullptr || board_[row][col]->getColour() != byColour) {
@@ -193,7 +222,7 @@ auto Board::isSquareAttacked(const Square& square, const PieceColour& byColour) 
     return false;
 }
 
-auto Board::isInCheck(const PieceColour& playerColour) -> bool {
+auto Board::isInCheck(const PieceColour& playerColour) const -> bool {
     const auto kingSquareOpt = getKingSquare(playerColour);
     if (kingSquareOpt.has_value()) {
         return isSquareAttacked(kingSquareOpt.value(), oppositeColour(playerColour));

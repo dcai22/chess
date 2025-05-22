@@ -13,6 +13,7 @@ class Game {
 
     auto validateMove(const Move& move) const -> MoveType;
     auto validateEnPassant(const Move& move) const -> bool;
+    auto validateCastle(const Move& move) const -> bool;
 
  public:
     Game();

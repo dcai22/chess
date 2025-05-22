@@ -32,6 +32,6 @@ class Board {
     auto hasEnded() const -> bool;
     auto getWinner() const -> std::optional<PieceColour>;
     auto pieceAt(const Square& square) const -> std::weak_ptr<Piece>;
-    auto isSquareAttacked(const Square& square, const PieceColour& byColour) -> bool;
-    auto isInCheck(const PieceColour& playerColour) -> bool;
+    auto isSquareAttacked(const Square& square, const PieceColour& byColour) const -> bool;
+    auto isInCheck(const PieceColour& playerColour) const -> bool;
 };

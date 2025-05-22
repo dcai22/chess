@@ -3,6 +3,9 @@
 #include "piece.h"
 
 class King : public Piece {
+ private:
+    auto getStartingRow() const -> int;
+
  public:
     King(const PieceColour colour);
 

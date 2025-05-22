@@ -68,9 +68,15 @@ auto Game::validateMove(const Move& move) const -> MoveType {
             break;
 
         case MoveType::KingsideCastle:
+            if (!validateCastle(move)) {
+                return MoveType::None;
+            }
             break;
 
         case MoveType::QueensideCastle:
+            if (!validateCastle(move)) {
+                return MoveType::None;
+            }
             break;
 
         case MoveType::EnPassant:
@@ -78,6 +84,7 @@ auto Game::validateMove(const Move& move) const -> MoveType {
                 std::cout << "Invalid en-passant" << std::endl;
                 return MoveType::None;
             }
+            break;
     }
 
     auto dupBoard = board_;
@@ -102,4 +109,21 @@ auto Game::validateEnPassant(const Move& move) const -> bool {
     } else {
         return false;
     }
+}
+
+auto Game::validateCastle(const Move& move) const -> bool {
+    if (board_.isInCheck(colourToMove_)) {
+        std::cout << "Cannot castle while in check" << std::endl;
+        return false;
+    }
+
+    const auto middleRow = move.from.row;
+    const auto middleCol = (move.from.col + move.to.col) / 2;
+    const auto middleSquare = Square(middleRow, middleCol);
+    if (board_.isSquareAttacked(middleSquare, oppositeColour(colourToMove_))) {
+        std::cout << "Cannot castle through an attacked square" << std::endl;
+        return false;
+    }
+
+    return true;
 }
