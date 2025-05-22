@@ -27,12 +27,18 @@ class Piece {
     auto getColour() const -> PieceColour;
     auto getLastMoved() const -> int;
     auto hasMoved() const -> bool;
+    auto isKing() const ->  bool;
+    auto isQueen() const ->  bool;
+    auto isRook() const ->  bool;
+    auto isBishop() const ->  bool;
+    auto isKnight() const ->  bool;
+    auto isPawn() const ->  bool;
+    auto isColour(const PieceColour& colour) const -> bool;
 
     auto setLastMoved(const int& moveNum) -> void;
-    
+
     virtual auto getAttackedSquares(const Board& board, const Square& from) const -> std::vector<Square>;
     auto isAttack(const Board& board, const Move& move) const -> bool;
-    // virtual auto deduceMoveType(const Board& board, const Move& move) const -> MoveType = 0;
     virtual auto getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> = 0;
 
     virtual ~Piece() = default;

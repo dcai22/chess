@@ -47,7 +47,8 @@ auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Squa
     const auto targetSymbol = King(colour).getDisplaySymbol();
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
-            if (board_[row][col] && board_[row][col]->getDisplaySymbol() == targetSymbol) {
+            const auto& piece = board_[row][col];
+            if (piece && piece->getDisplaySymbol() == targetSymbol) {
                 return Square(row, col);
             }
         }
@@ -100,8 +101,7 @@ auto Board::processMove(const LegalMove& legalMove, const int moveNum) -> void {
         throw std::logic_error("Piece did not move correctly");
     }
 
-    if (piece->getSymbol() == Constants::PAWN_SYMBOL &&
-        (to.row == 0 || to.row == Constants::BOARD_SIZE - 1)) {
+    if (piece->isPawn() && (to.row == 0 || to.row == Constants::BOARD_SIZE - 1)) {
         // promotion
         printState();
         std::cout << "What piece would you like to promote your pawn to?" << std::endl;
@@ -161,9 +161,10 @@ auto Board::processMove(const LegalMove& legalMove, const int moveNum) -> void {
 }
 
 auto Board::printState() const -> void {
-    for (auto row = 7; row >= 0; row--) {
-        for (auto col = 0; col < 8; col++) {
-            std::cout << (board_[row][col] == nullptr ? '.' : board_[row][col]->getDisplaySymbol()) << " ";
+    for (auto row = Constants::BOARD_SIZE - 1; row >= 0; row--) {
+        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+            const auto& piece = board_[row][col];
+            std::cout << (piece ? piece->getDisplaySymbol() : '.') << " ";
         }
         std::cout << std::endl;
     }
@@ -176,12 +177,13 @@ auto Board::pieceAt(const Square& square) const -> std::weak_ptr<Piece> {
 auto Board::isSquareAttacked(const Square& square, const PieceColour& byColour) const -> bool {
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
-            if (board_[row][col] == nullptr || board_[row][col]->getColour() != byColour) {
+            const auto& piece = board_[row][col];
+            if (!(piece && piece->isColour(byColour))) {
                 continue;
             }
             const auto from = Square(row, col);
             const auto move = Move(from, square);
-            if (board_[row][col]->isAttack(*this, move)) {
+            if (piece->isAttack(*this, move)) {
                 return true;
             }
         }

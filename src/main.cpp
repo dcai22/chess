@@ -42,8 +42,9 @@ auto main() -> int {
 
     std::cout << "Game over!" << std::endl;
     std::cout << "Result: ";
-    if (game.getWinner().has_value()) {
-        switch(game.getWinner().value()) {
+    const auto winnerOpt = game.getWinner();
+    if (winnerOpt.has_value()) {
+        switch(winnerOpt.value()) {
             case PieceColour::White:
                 std::cout << "White wins" << std::endl;
                 break;

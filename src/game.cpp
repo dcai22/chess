@@ -27,6 +27,7 @@ auto Game::processMove(const Move& move) -> bool {
                 winner_ = std::nullopt;
             }
         }
+        // TODO: other drawing conditions
         return true;
     }
 }
@@ -48,21 +49,20 @@ auto Game::getColourToMove() const -> PieceColour {
 }
 
 auto Game::updateLegalMoves() -> void {
-    auto legalMoves = std::vector<LegalMove>();
+    legalMoves_ = std::vector<LegalMove>();
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
         for (auto col = 0; col < Constants::BOARD_SIZE;  col++) {
             const auto from = Square(row, col);
             const auto piece = board_.pieceAt(from).lock();
-            if (piece && piece->getColour() == colourToMove_) {
+            if (piece && piece->isColour(colourToMove_)) {
                 for (auto const& legalMove : piece->getLegalMoves(board_, from)) {
                     if (validateLegalMove(legalMove)) {
-                        legalMoves.push_back(legalMove);
+                        legalMoves_.push_back(legalMove);
                     }
                 }
             }
         }
     }
-    legalMoves_ = std::move(legalMoves);
 }
 
 auto Game::validateLegalMove(const LegalMove& legalMove) const -> bool {

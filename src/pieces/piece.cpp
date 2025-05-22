@@ -3,6 +3,7 @@
 
 #include "piece.h"
 #include "../move.h"
+#include "../constants.h"
 
 Piece::Piece(const double value, const char symbol, const PieceColour colour)
 : value_(value)
@@ -41,6 +42,34 @@ auto Piece::getLastMoved() const -> int {
 
 auto Piece::hasMoved() const ->  bool {
     return lastMoved_ > 0;
+}
+
+auto Piece::isKing() const ->  bool {
+    return getSymbol() == Constants::KING_SYMBOL;
+}
+
+auto Piece::isQueen() const ->  bool {
+    return getSymbol() == Constants::QUEEN_SYMBOL;
+}
+
+auto Piece::isRook() const ->  bool {
+    return getSymbol() == Constants::ROOK_SYMBOL;
+}
+
+auto Piece::isBishop() const ->  bool {
+    return getSymbol() == Constants::BISHOP_SYMBOL;
+}
+
+auto Piece::isKnight() const ->  bool {
+    return getSymbol() == Constants::KNIGHT_SYMBOL;
+}
+
+auto Piece::isPawn() const ->  bool {
+    return getSymbol() == Constants::PAWN_SYMBOL;
+}
+
+auto Piece::isColour(const PieceColour& colour) const -> bool {
+    return getColour() == colour;
 }
 
 auto Piece::setLastMoved(const int& moveNum) -> void {
