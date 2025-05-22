@@ -35,24 +35,25 @@ auto main() -> int {
             }
         }
 
-        auto move = moveOpt.value();
+        const auto move = moveOpt.value();
         game.processMove(move);
         game.printBoard();
     }
 
-    std::cout << "Game ended!" << std::endl;
+    std::cout << "Game over!" << std::endl;
+    std::cout << "Result: ";
     if (game.getWinner().has_value()) {
         switch(game.getWinner().value()) {
             case PieceColour::White:
-                std::cout << "Winner: White" << std::endl;
+                std::cout << "White wins" << std::endl;
                 break;
 
             case PieceColour::Black:
-                std::cout << "Winner: Black" << std::endl;
+                std::cout << "Black wins" << std::endl;
                 break;
         }
     } else {
-        std::cout << "Draw!" << std::endl;;
+        std::cout << "Draw" << std::endl;;
     }
 
     return 0;

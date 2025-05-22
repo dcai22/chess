@@ -48,6 +48,8 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "set": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "map": "cpp",
+        "unordered_set": "cpp"
     }
 }

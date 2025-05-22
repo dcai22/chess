@@ -1,10 +1,14 @@
 #pragma once
 
+#include <vector>
+
 #include "../types.h"
+#include "../square.h"
 
 // forward declarations
 class Board;
 class Move;
+struct LegalMove;
 
 class Piece {
  private:
@@ -25,9 +29,11 @@ class Piece {
     auto hasMoved() const -> bool;
 
     auto setLastMoved(const int& moveNum) -> void;
-
-    virtual auto isAttack(const Board& board, const Move& move) const -> bool = 0;
-    virtual auto deduceMoveType(const Board& board, const Move& move) const -> MoveType = 0;
+    
+    virtual auto getAttackedSquares(const Board& board, const Square& from) const -> std::vector<Square>;
+    auto isAttack(const Board& board, const Move& move) const -> bool;
+    // virtual auto deduceMoveType(const Board& board, const Move& move) const -> MoveType = 0;
+    virtual auto getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> = 0;
 
     virtual ~Piece() = default;
 };

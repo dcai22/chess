@@ -5,18 +5,28 @@
 #include "helper.h"
 #include "move.h"
 
-Game::Game()
-: board_(Board())
-{}
+Game::Game() {
+    updateLegalMoves();
+}
 
 auto Game::processMove(const Move& move) -> bool {
-    const auto moveType = validateMove(move);
+    const auto moveType = getMoveType(move);
     if (moveType == MoveType::None) {
+        std::cout << "Illegal move" << std::endl;
         return false;
     } else {
         moves_.push_back(move);
-        board_.processMove(move, moveType, static_cast<int>(moves_.size()) + 1);
+        board_.processMove(LegalMove{ .move = move, .moveType = moveType }, static_cast<int>(moves_.size()) + 1);
         colourToMove_ = oppositeColour(colourToMove_);
+        updateLegalMoves();
+        if (legalMoves_.empty()) {
+            hasEnded_ = true;
+            if (board_.isInCheck(colourToMove_)) {
+                winner_ = oppositeColour(colourToMove_);
+            } else {
+                winner_ = std::nullopt;
+            }
+        }
         return true;
     }
 }
@@ -26,75 +36,72 @@ auto Game::printBoard() const -> void {
 }
 
 auto Game::getWinner() const -> std::optional<PieceColour> {
-    return board_.getWinner();
+    return winner_;
 }
 
 auto Game::hasEnded() const -> bool {
-    return board_.hasEnded();
+    return hasEnded_;
 }
 
 auto Game::getColourToMove() const -> PieceColour {
     return colourToMove_;
 }
 
-auto Game::validateMove(const Move& move) const -> MoveType {
-    auto movingPiece = board_.pieceAt(move.from).lock();
-
-    if (!movingPiece) {
-        std::cout << "There is no piece there!" << std::endl;
-        return MoveType::None;
+auto Game::updateLegalMoves() -> void {
+    auto legalMoves = std::vector<LegalMove>();
+    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+        for (auto col = 0; col < Constants::BOARD_SIZE;  col++) {
+            const auto from = Square(row, col);
+            const auto piece = board_.pieceAt(from).lock();
+            if (piece && piece->getColour() == colourToMove_) {
+                for (auto const& legalMove : piece->getLegalMoves(board_, from)) {
+                    if (validateLegalMove(legalMove)) {
+                        legalMoves.push_back(legalMove);
+                    }
+                }
+            }
+        }
     }
+    legalMoves_ = std::move(legalMoves);
+}
 
-    if (movingPiece->getColour() != colourToMove_) {
-        std::cout << "That piece does not belong to you!" << std::endl;
-        return MoveType::None;
-    }
-    
-    if (move.from == move.to) {
-        std::cout << "Start and end square cannot be the same" << std::endl;
-        return MoveType::None;
-    }
-
-    auto intendedMoveType = movingPiece->deduceMoveType(board_, move);
-    switch(intendedMoveType) {
+auto Game::validateLegalMove(const LegalMove& legalMove) const -> bool {
+    auto isValid = false;
+    switch(legalMove.moveType) {
         case MoveType::None:
-            std::cout << "That piece cannot move there!" << std::endl;
-            return MoveType::None;
+            break;
 
         case MoveType::Move:
+            isValid = true;
             break;
 
         case MoveType::Capture:
+            isValid = true;
             break;
 
         case MoveType::KingsideCastle:
-            if (!validateCastle(move)) {
-                return MoveType::None;
-            }
+            isValid = validateCastle(legalMove.move);
             break;
 
         case MoveType::QueensideCastle:
-            if (!validateCastle(move)) {
-                return MoveType::None;
-            }
+            isValid = validateCastle(legalMove.move);
             break;
 
         case MoveType::EnPassant:
-            if (!validateEnPassant(move)) {
-                std::cout << "Invalid en-passant" << std::endl;
-                return MoveType::None;
-            }
+            isValid = validateEnPassant(legalMove.move);
             break;
+    }
+    if (!isValid) {
+        return false;
     }
 
     auto dupBoard = board_;
-    dupBoard.executeMove(move, intendedMoveType);
+    dupBoard.executeMove(legalMove);
     if (dupBoard.isInCheck(colourToMove_)) {
-        std::cout << "Move would result in check" << std::endl;
-        return MoveType::None;
+        return false;
     }
 
-    return intendedMoveType;
+    return true;
 }
 
 auto Game::validateEnPassant(const Move& move) const -> bool {
@@ -126,4 +133,13 @@ auto Game::validateCastle(const Move& move) const -> bool {
     }
 
     return true;
+}
+
+auto Game::getMoveType(const Move& move) const -> MoveType {
+    for (const auto& legalMove : legalMoves_) {
+        if (legalMove.move == move) {
+            return legalMove.moveType;
+        }
+    }
+    return MoveType::None;
 }

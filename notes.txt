@@ -8,46 +8,46 @@ The rest of the CLI will simply be implementing the rules, i.e., move validation
 Here is a checklist of rules to implement:
  - A move must start from a pawn/piece of the same colour                                                                   DONE
  - The start and end square of a move must be different                                                                     DONE
- - For a regular move, the end square must be empty
- - For a capture, the end square must have a pawn/piece of the opposite colour
+ - For a regular move, the end square must be empty                                                                         DONE
+ - For a capture, the end square must have a pawn/piece of the opposite colour                                              DONE
  - A move cannot result in the player's King being in check                                                                 DONE
- - Piece-specific rules:
-    - Pawn:
+ - Piece-specific rules:                                                                                                    DONE
+    - Pawn:                                                                                                                 DONE
         - Can move, but not capture, 1 unit forward                                                                         DONE
         - On its first move, it may move, but not capture, 2 units forward, if the square in front is empty                 DONE
         - Captures can only be made 1 unit diagonally forward (captures 1 unit forward are not allowed)                     DONE
         - En-passant                                                                                                        DONE
-            - If your opponent's previous move was a pawn moving 2 spaces forward, landing on your pawn's left or right,
+            - If your opponent's previous move was a pawn moving 2 spaces forward, landing on your pawn's left or right,    DONE
               you may move your piece diagonally forward in that direction to capture the opponent's pawn
         - Promotion                                                                                                         DONE
-            - If your pawn reaches the end of the board (8th rank for white, 1st rank for black), it is
+            - If your pawn reaches the end of the board (8th rank for white, 1st rank for black), it is                     DONE
               replaced with any piece (but not pawn) of your choosing
-            - The new piece should copy the Piece properties from the pawn to avoid bad castling logic
-    - Rook:
+            - The new piece should copy the Piece properties from the pawn to avoid bad castling logic                      DONE
+    - Rook:                                                                                                                 DONE
         - Line of sight is horizontal and vertical                                                                          DONE
         - Can only move/capture in its line of sight                                                                        DONE
-        - Is moved when castling (see King)
-    - Knight:
+        - Is moved when castling (see King)                                                                                 DONE
+    - Knight:                                                                                                               DONE
         - Can only move/capture in an L-shape                                                                               DONE
-    - Bishop:
+    - Bishop:                                                                                                               DONE
         - Line of sight is along the diagonals                                                                              DONE
         - Can only move/capture in its line of sight                                                                        DONE
-    - Queen:
+    - Queen:                                                                                                                DONE
         - Line of sight is horizontal, vertical, and along the diagonals                                                    DONE
         - Can only move/capture in its line of sight                                                                        DONE
-    - King:
+    - King:                                                                                                                 DONE
         - Can move/capture 1 unit in any direction (including diagonally)                                                   DONE
         - Castling                                                                                                          DONE
-            - Only on its first move
-            - King moves 2 units to its right (Kingside), or left (Queenside)
-            - The Rook in the direction of castling cannot have moved
-            - All squares between the King and relevant Rook must be empty
-            - The King's current, final, and any intermediate squares cannot be attacked by the opponent
-            - Counts as a move for both the king and the rook
-    - Checkmate occurs when the player has no legal moves remaining
+            - Only on its first move                                                                                        DONE
+            - King moves 2 units to its right (Kingside), or left (Queenside)                                               DONE
+            - The Rook in the direction of castling cannot have moved                                                       DONE
+            - All squares between the King and relevant Rook must be empty                                                  DONE
+            - The King's current, final, and any intermediate squares cannot be attacked by the opponent                    DONE
+            - Counts as a move for both the king and the rook                                                               DONE
+    - Checkmate occurs when the player has no legal moves remaining                                                         DONE
 FOR FUTURE IMPLEMENTATION:
     - Draws
-        - Stalemate
+        - Stalemate                                                                                                         DONE
         - Threefold repetition
         - Insufficient material
         - Fifty moves without a pawn move or a capture

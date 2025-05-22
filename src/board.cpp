@@ -43,27 +43,6 @@ Board::Board() {
     }
 }
 
-auto Board::updateHasKing() -> void {
-    auto whiteHasKing = false;
-    auto blackHasKing = false;
-    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
-        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
-            if (board_[row][col] == nullptr) {
-                continue;
-            }
-            auto symbol = board_[row][col]->getDisplaySymbol();
-            if (symbol == 'K') {
-                whiteHasKing = true;
-            } else if (symbol == 'k') {
-                blackHasKing = true;
-            }
-        }
-    }
-
-    whiteHasKing_ = whiteHasKing;
-    blackHasKing_ = blackHasKing;
-}
-
 auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Square> {
     const auto targetSymbol = King(colour).getDisplaySymbol();
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
@@ -76,50 +55,53 @@ auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Squa
     return std::nullopt;
 }
 
-auto Board::executeMove(const Move& move, const MoveType& moveType) -> void {
-    board_[move.to.row][move.to.col] = std::move(board_[move.from.row][move.from.col]);
-    board_[move.from.row][move.from.col].reset();
+auto Board::executeMove(const LegalMove& legalMove) -> void {
+    const auto from = legalMove.move.from;
+    const auto to = legalMove.move.to;
+    board_[to.row][to.col] = std::move(board_[from.row][from.col]);
+    board_[from.row][from.col].reset();
 
-    switch (moveType) {
+    switch (legalMove.moveType) {
         case MoveType::KingsideCastle: {
-            const auto middleRow = move.from.row;
-            const auto middleCol = (move.from.col + move.to.col) / 2;
-            const auto rookRow = move.from.row;
+            const auto middleRow = from.row;
+            const auto middleCol = (from.col + to.col) / 2;
+            const auto rookRow = from.row;
             const auto rookCol = 7;
             board_[middleRow][middleCol] = std::move(board_[rookRow][rookCol]);
             break;
         }
 
         case MoveType::QueensideCastle: {
-            const auto middleRow = move.from.row;
-            const auto middleCol = (move.from.col + move.to.col) / 2;
-            const auto rookRow = move.from.row;
+            const auto middleRow = from.row;
+            const auto middleCol = (from.col + to.col) / 2;
+            const auto rookRow = from.row;
             const auto rookCol = 0;
             board_[middleRow][middleCol] = std::move(board_[rookRow][rookCol]);
             break;
         }
 
         case MoveType::EnPassant: {
-            board_[move.from.row][move.to.col].reset();
+            board_[from.row][to.col].reset();
             break;
         }
 
         default:
-            return;
+            break;
     }
 }
 
 // precondition: there is a piece on move.from, and moveType != MoveType::None
-auto Board::processMove(const Move& move, const MoveType& moveType, const int moveNum) -> void {
-    executeMove(move, moveType);
+auto Board::processMove(const LegalMove& legalMove, const int moveNum) -> void {
+    executeMove(legalMove);
 
-    auto& piece = board_[move.to.row][move.to.col];
+    const auto to = legalMove.move.to;
+    auto& piece = board_[to.row][to.col];
     if (piece == nullptr) {
         throw std::logic_error("Piece did not move correctly");
     }
 
     if (piece->getSymbol() == Constants::PAWN_SYMBOL &&
-    (move.to.row == 0 || move.to.row == Constants::BOARD_SIZE - 1)) {
+        (to.row == 0 || to.row == Constants::BOARD_SIZE - 1)) {
         // promotion
         printState();
         std::cout << "What piece would you like to promote your pawn to?" << std::endl;
@@ -170,13 +152,12 @@ auto Board::processMove(const Move& move, const MoveType& moveType, const int mo
 
     piece->setLastMoved(moveNum);
     // castled
-    if (moveType == MoveType::KingsideCastle || moveType == MoveType::QueensideCastle) {
-        const auto middleRow = move.from.row;
-        const auto middleCol = (move.from.col + move.to.col) / 2;
+    if (legalMove.moveType == MoveType::KingsideCastle || legalMove.moveType == MoveType::QueensideCastle) {
+        const auto from = legalMove.move.from;
+        const auto middleRow = from.row;
+        const auto middleCol = (from.col + to.col) / 2;
         board_[middleRow][middleCol]->setLastMoved(moveNum);
     }
-
-    updateHasKing();
 }
 
 auto Board::printState() const -> void {
@@ -185,20 +166,6 @@ auto Board::printState() const -> void {
             std::cout << (board_[row][col] == nullptr ? '.' : board_[row][col]->getDisplaySymbol()) << " ";
         }
         std::cout << std::endl;
-    }
-}
-
-auto Board::hasEnded() const -> bool {
-    return !(whiteHasKing_ && blackHasKing_);
-}
-
-auto Board::getWinner() const -> std::optional<PieceColour> {
-    if (whiteHasKing_ && !blackHasKing_) {
-        return PieceColour::White;
-    } else if (!whiteHasKing_ && blackHasKing_) {
-        return PieceColour::Black;
-    } else {
-        return std::nullopt;
     }
 }
 

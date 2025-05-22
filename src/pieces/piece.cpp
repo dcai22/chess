@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "piece.h"
+#include "../move.h"
 
 Piece::Piece(const double value, const char symbol, const PieceColour colour)
 : value_(value)
@@ -44,4 +45,21 @@ auto Piece::hasMoved() const ->  bool {
 
 auto Piece::setLastMoved(const int& moveNum) -> void {
     lastMoved_ = moveNum;
+}
+
+auto Piece::getAttackedSquares(const Board& board, const Square& from) const -> std::vector<Square> {
+    auto attackedSquares = std::vector<Square>();
+    for (const auto& legalMove : getLegalMoves(board, from)) {
+        attackedSquares.push_back(legalMove.move.to);
+    }
+    return attackedSquares;
+}
+
+auto Piece::isAttack(const Board& board, const Move& move) const -> bool {
+    for (const auto& attackedSquare : getAttackedSquares(board, move.from)) {
+        if (attackedSquare == move.to) {
+            return true;
+        }
+    }
+    return false;
 }
