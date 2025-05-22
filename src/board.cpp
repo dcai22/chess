@@ -88,10 +88,65 @@ auto Board::executeMove(const Move& move, const MoveType& moveType) -> void {
     }
 }
 
-// precondition: there is a piece on move.from
+// precondition: there is a piece on move.from, and moveType != MoveType::None
 auto Board::processMove(const Move& move, const MoveType& moveType, const int moveNum) -> void {
     executeMove(move, moveType);
-    board_[move.to.row][move.to.col]->setLastMoved(moveNum);
+
+    auto& piece = board_[move.to.row][move.to.col];
+    if (piece == nullptr) {
+        throw std::logic_error("Piece did not move correctly");
+    }
+
+    if (piece->getSymbol() == Constants::PAWN_SYMBOL &&
+    (move.to.row == 0 || move.to.row == Constants::BOARD_SIZE - 1)) {
+        // promotion
+        printState();
+        std::cout << "What piece would you like to promote your pawn to?" << std::endl;
+        std::cout << Constants::QUEEN_SYMBOL << ": Queen" << std::endl;
+        std::cout << Constants::ROOK_SYMBOL << ": Rook" << std::endl;
+        std::cout << Constants::BISHOP_SYMBOL << ": Bishop" << std::endl;
+        std::cout << Constants::KNIGHT_SYMBOL << ": Knight" << std::endl;
+        std::cout << "Enter symbol: ";
+
+        while (true) {
+            auto input = std::string();
+            std::getline(std::cin >> std::ws, input);
+            const auto tokens = splitByWhitespace(input);
+            if (tokens.size() != 1 || tokens[0].size() != 1) {
+                continue;
+            }
+
+            const auto pieceColour = piece->getColour();
+            const auto symbol = tokens[0][0];
+            auto success = true;
+            switch (symbol) {
+                case 'N':
+                    piece = std::make_shared<Knight>(pieceColour);
+                    break;
+
+                case 'B':
+                    piece = std::make_shared<Bishop>(pieceColour);
+                    break;
+
+                case 'R':
+                    piece = std::make_shared<Rook>(pieceColour);
+                    break;
+
+                case 'Q':
+                    piece = std::make_shared<Queen>(pieceColour);
+                    break;
+
+                default:
+                    success = false;
+                    break;
+            }
+
+            if (success) {
+                break;
+            }
+        }
+    }
+    piece->setLastMoved(moveNum);
     updateHasKing();
 }
 

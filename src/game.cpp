@@ -61,7 +61,6 @@ auto Game::validateMove(const Move& move) const -> MoveType {
             std::cout << "That piece cannot move there!" << std::endl;
             return MoveType::None;
 
-        // TODO: validate that the end position isn't a check
         case MoveType::Move:
             break;
 
