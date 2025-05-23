@@ -199,3 +199,8 @@ auto Board::isInCheck(const PieceColour& playerColour) const -> bool {
         return false;
     }
 }
+
+auto Board::isBigPawnPush(const Move& move) const -> bool {
+    const auto& piece = board_[move.from.row][move.from.col];
+    return piece && piece->isPawn() && abs(move.to.row - move.from.row) == 2;
+}

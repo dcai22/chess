@@ -15,6 +15,14 @@ auto Game::processMove(const Move& move) -> bool {
         std::cout << "Illegal move" << std::endl;
         return false;
     } else {
+        if (board_.isBigPawnPush(move)) {
+            auto targetRow = (move.from.row + move.to.row) / 2;
+            auto targetCol = move.from.col;
+            enPassantTarget_ = Square(targetRow, targetCol);
+        } else {
+            enPassantTarget_ = std::nullopt;
+        }
+
         moves_.push_back(move);
         board_.processMove(LegalMove{ .move = move, .moveType = moveType }, static_cast<int>(moves_.size()) + 1);
         colourToMove_ = oppositeColour(colourToMove_);
@@ -105,17 +113,7 @@ auto Game::validateLegalMove(const LegalMove& legalMove) const -> bool {
 }
 
 auto Game::validateEnPassant(const Move& move) const -> bool {
-    if (moves_.empty()) {
-        return false;
-    }
-
-    const auto enPassantSquare = Square(move.from.row, move.to.col);
-    const auto lastMove = moves_[moves_.size() - 1];
-    if (enPassantSquare == lastMove.to && abs(lastMove.to.row - lastMove.from.row) == 2) {
-        return true;
-    } else {
-        return false;
-    }
+    return enPassantTarget_ == move.to;
 }
 
 auto Game::validateCastle(const Move& move) const -> bool {
