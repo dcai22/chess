@@ -22,9 +22,11 @@ auto Game::processMove(const Move& move) -> bool {
         } else {
             enPassantTarget_ = std::nullopt;
         }
+        updateCastlingRights(move);
 
         moves_.push_back(move);
         board_.processMove(LegalMove{ .move = move, .moveType = moveType }, static_cast<int>(moves_.size()) + 1);
+
         colourToMove_ = oppositeColour(colourToMove_);
         updateLegalMoves();
         if (legalMoves_.empty()) {
@@ -140,4 +142,37 @@ auto Game::getMoveType(const Move& move) const -> MoveType {
         }
     }
     return MoveType::None;
+}
+
+auto Game::updateCastlingRights(const Move& move) -> void {
+    const auto& piece = board_.pieceAt(move.from).lock();
+    if (piece) {
+        const auto colour = piece->getColour();
+        if (piece->isKing()) {
+            revokeKingsideCastleRights(colour);
+            revokeQueensideCastleRights(colour);
+        } else if (piece->isRook()) {
+            const auto startingRow = piece->getStartingRow();
+            if (move.from == Square(startingRow, 0)) {
+                revokeQueensideCastleRights(colour);
+            } else if (move.from == Square(startingRow, Constants::BOARD_SIZE - 1)) {
+                revokeKingsideCastleRights(colour);
+            }
+        }
+    }
+}
+
+auto Game::revokeKingsideCastleRights(const PieceColour& colour) -> void {
+    if (colour == PieceColour::White) {
+        whiteCanCastleKingside_ = false;
+    } else {
+        blackCanCastleKingside_ = false;
+    }
+}
+auto Game::revokeQueensideCastleRights(const PieceColour& colour) -> void {
+    if (colour == PieceColour::White) {
+        whiteCanCastleQueenside_ = false;
+    } else {
+        blackCanCastleQueenside_ = false;
+    }
 }

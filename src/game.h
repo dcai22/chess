@@ -15,12 +15,19 @@ class Game {
     bool hasEnded_ = false;
     std::optional<PieceColour> winner_ = std::nullopt;
     std::optional<Square> enPassantTarget_ = std::nullopt;
+    bool whiteCanCastleKingside_ = true;
+    bool whiteCanCastleQueenside_ = true;
+    bool blackCanCastleKingside_ = true;
+    bool blackCanCastleQueenside_ = true;
 
     auto updateLegalMoves() -> void;
     auto validateLegalMove(const LegalMove& legalMove) const -> bool;
     auto validateEnPassant(const Move& move) const -> bool;
     auto validateCastle(const Move& move) const -> bool;
     auto getMoveType(const Move& move) const -> MoveType;
+    auto updateCastlingRights(const Move& move) -> void;
+    auto revokeKingsideCastleRights(const PieceColour& colour) -> void;
+    auto revokeQueensideCastleRights(const PieceColour& colour) -> void;
 
     public:
     Game();

@@ -7,6 +7,10 @@ Pawn::Pawn(const PieceColour colour)
 : Piece(Constants::PAWN_SYMBOL, Constants::PAWN_SYMBOL, colour)
 {}
 
+auto Pawn::getStartingRow() const -> int {
+    return getColour() == PieceColour::White ? 1 : 6;
+}
+
 // returns 1 if pawn goes up the board, -1 if pawn goes down the board
 auto Pawn::getDirection() const -> int {
     return getColour() == PieceColour::White ? 1 : -1;

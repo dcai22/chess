@@ -7,6 +7,10 @@ Queen::Queen(const PieceColour colour)
 : Piece(Constants::QUEEN_SYMBOL, Constants::QUEEN_SYMBOL, colour)
 {}
 
+auto Queen::getStartingRow() const -> int {
+    return getColour() == PieceColour::White ? 0 : 7;
+}
+
 auto Queen::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
     const auto directions = std::vector<std::vector<int>>({{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}});

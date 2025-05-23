@@ -11,6 +11,10 @@ Bishop::Bishop(const PieceColour colour)
 : Piece(Constants::BISHOP_VALUE, Constants::BISHOP_SYMBOL, colour)
 {}
 
+auto Bishop::getStartingRow() const -> int {
+    return getColour() == PieceColour::White ? 0 : 7;
+}
+
 auto Bishop::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
     const auto directions = std::vector<std::vector<int>>({{1, 1}, {1, -1}, {-1, 1}, {-1, -1}});

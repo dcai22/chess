@@ -7,6 +7,10 @@ Knight::Knight(const PieceColour colour)
 : Piece(Constants::KNIGHT_SYMBOL, Constants::KNIGHT_SYMBOL, colour)
 {}
 
+auto Knight::getStartingRow() const -> int {
+    return getColour() == PieceColour::White ? 0 : 7;
+}
+
 auto Knight::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
     const auto directions = std::vector<std::vector<int>>({{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}});

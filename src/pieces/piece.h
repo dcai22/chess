@@ -34,6 +34,7 @@ class Piece {
     auto isKnight() const ->  bool;
     auto isPawn() const ->  bool;
     auto isColour(const PieceColour& colour) const -> bool;
+    virtual auto getStartingRow() const -> int = 0;
 
     auto setLastMoved(const int& moveNum) -> void;
 
