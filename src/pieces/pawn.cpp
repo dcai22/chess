@@ -61,7 +61,7 @@ auto Pawn::getLegalMoves(const Board& board, const Square& from) const -> std::v
         const auto toRow = from.row + rowStep;
         const auto toCol = from.col + colStep;
         if (!Square::isValid(toRow, toCol)) {
-            break;
+            continue;
         }
 
         const auto to = Square(toRow, toCol);
@@ -76,7 +76,7 @@ auto Pawn::getLegalMoves(const Board& board, const Square& from) const -> std::v
         const auto enPassantRow = from.row;
         const auto enPassantCol = from.col + colStep;
         if (!Square::isValid(enPassantRow, enPassantCol)) {
-            break;
+            continue;
         }
 
         const auto enPassantSquare = Square(enPassantRow, enPassantCol);

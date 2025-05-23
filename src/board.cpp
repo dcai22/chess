@@ -13,18 +13,18 @@
 #include "pieces/pawn.h"
 
 Board::Board() {
-    for (auto col = 0; col < 8; col++) {
-        for (auto row = 0; row < 8; row++) {
-            if (row == 0 || row == 7) {
+    for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+        for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+            if (row == 0 || row == Constants::BOARD_SIZE - 1) {
                 // pieces
                 auto colour = row == 0 ? PieceColour::White : PieceColour::Black;
-                if (col == 0 || col == 7) {
+                if (col == 0 || col == Constants::BOARD_SIZE - 1) {
                     // rooks
                     board_[row][col] = std::make_shared<Rook>(colour);
-                } else if (col == 1 || col == 6) {
+                } else if (col == 1 || col == Constants::BOARD_SIZE - 2) {
                     // knights
                     board_[row][col] = std::make_shared<Knight>(colour);
-                } else if (col == 2 || col == 5) {
+                } else if (col == 2 || col == Constants::BOARD_SIZE - 3) {
                     // bishops
                     board_[row][col] = std::make_shared<Bishop>(colour);
                 } else if (col == 3) {
@@ -34,7 +34,7 @@ Board::Board() {
                     // king
                     board_[row][col] = std::make_shared<King>(colour);
                 }
-            } else if (row == 1 || row == 6) {
+            } else if (row == 1 || row == Constants::BOARD_SIZE - 2) {
                 auto colour = row == 1 ? PieceColour::White : PieceColour::Black;
                 // pawns
                 board_[row][col] = std::make_shared<Pawn>(colour);
