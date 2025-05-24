@@ -12,6 +12,13 @@ Square::Square(const int row, const int col)
     }
 }
 
+auto Square::toString() const -> std::string {
+    const auto file = static_cast<char>('a' + col);
+    const auto rank = static_cast<char>('1' + col);
+    const auto res = std::string() + file + rank;
+    return res;
+}
+
 auto Square::parseCoords(const std::string& coords) -> Square {
     if (coords.size() != 2) {
         throw std::invalid_argument("Coordinates must be a letter followed by a digit");

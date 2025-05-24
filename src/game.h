@@ -2,6 +2,8 @@
 
 #include <optional>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 #include "board.h"
 #include "types.h"
@@ -19,7 +21,8 @@ class Game {
     bool whiteCanCastleQueenside_ = true;
     bool blackCanCastleKingside_ = true;
     bool blackCanCastleQueenside_ = true;
-
+    std::unordered_map<std::string, int> seenPositions_ = std::unordered_map<std::string, int>();
+    
     auto updateLegalMoves() -> void;
     auto validateLegalMove(const LegalMove& legalMove) const -> bool;
     auto validateEnPassant(const Move& move) const -> bool;
@@ -28,6 +31,7 @@ class Game {
     auto updateCastlingRights(const Move& move) -> void;
     auto revokeKingsideCastleRights(const PieceColour& colour) -> void;
     auto revokeQueensideCastleRights(const PieceColour& colour) -> void;
+    auto updateSeenPositions() -> int; // returns number of times the position has been seen
 
     public:
     Game();

@@ -204,3 +204,14 @@ auto Board::isBigPawnPush(const Move& move) const -> bool {
     const auto& piece = board_[move.from.row][move.from.col];
     return piece && piece->isPawn() && abs(move.to.row - move.from.row) == 2;
 }
+
+auto Board::getPositionString() const -> std::string {
+    auto state = std::string();
+    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+            const auto& piece = board_[row][col];
+            state += piece ? piece->getDisplaySymbol() : '.';
+        }
+    }
+    return state;
+}

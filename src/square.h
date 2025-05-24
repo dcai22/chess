@@ -9,6 +9,8 @@ class Square {
 
     Square(const int row, const int col);
 
+    auto toString() const -> std::string;
+
     static auto parseCoords(const std::string& coords) -> Square;
     static auto isValid(const int row, const int col) -> bool;
 

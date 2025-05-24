@@ -7,6 +7,7 @@
 
 Game::Game() {
     updateLegalMoves();
+    updateSeenPositions();
 }
 
 auto Game::processMove(const Move& move) -> bool {
@@ -28,6 +29,12 @@ auto Game::processMove(const Move& move) -> bool {
         board_.processMove(LegalMove{ .move = move, .moveType = moveType }, static_cast<int>(moves_.size()) + 1);
 
         colourToMove_ = oppositeColour(colourToMove_);
+        if (updateSeenPositions() == 3) {
+            // threefold repetition
+            hasEnded_ = true;
+            winner_ = std::nullopt;
+            return true;
+        }
         updateLegalMoves();
         if (legalMoves_.empty()) {
             hasEnded_ = true;
@@ -175,4 +182,18 @@ auto Game::revokeQueensideCastleRights(const PieceColour& colour) -> void {
     } else {
         blackCanCastleQueenside_ = false;
     }
+}
+
+auto Game::updateSeenPositions() -> int {
+    auto position = board_.getPositionString();
+    position += " ";
+    position += colourToMove_== PieceColour::White ? "W" : "B";
+    position += " ";
+    position += whiteCanCastleKingside_ ? "K" : "";
+    position += whiteCanCastleQueenside_ ? "Q" : "";
+    position += blackCanCastleKingside_ ? "k" : "";
+    position += blackCanCastleQueenside_ ? "q" : "";
+    position += " ";
+    position += enPassantTarget_.has_value() ? enPassantTarget_->toString() : "-";
+    return ++seenPositions_[position];
 }

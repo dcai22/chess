@@ -28,6 +28,7 @@ class Board {
     auto pieceAt(const Square& square) const -> std::weak_ptr<Piece>;
     auto isSquareAttacked(const Square& square, const PieceColour& byColour) const -> bool;
     auto isInCheck(const PieceColour& playerColour) const -> bool;
+    auto getPositionString() const -> std::string;
 
     auto isBigPawnPush(const Move& move) const -> bool;
 };
