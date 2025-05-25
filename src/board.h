@@ -29,6 +29,7 @@ class Board {
     auto isSquareAttacked(const Square& square, const PieceColour& byColour) const -> bool;
     auto isInCheck(const PieceColour& playerColour) const -> bool;
     auto getPositionString() const -> std::string;
+    auto hasInsufficientMaterial() const -> bool;
 
     auto isBigPawnPush(const Move& move) const -> bool;
 };

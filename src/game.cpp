@@ -16,6 +16,7 @@ auto Game::processMove(const Move& move) -> bool {
         std::cout << "Illegal move" << std::endl;
         return false;
     } else {
+        const auto legalMove = LegalMove{ .move = move, .moveType = moveType };
         if (board_.isBigPawnPush(move)) {
             auto targetRow = (move.from.row + move.to.row) / 2;
             auto targetCol = move.from.col;
@@ -24,17 +25,16 @@ auto Game::processMove(const Move& move) -> bool {
             enPassantTarget_ = std::nullopt;
         }
         updateCastlingRights(move);
+        if (isPawnMoveOrCapture(legalMove)) {
+            fiftyMoveRuleCounter_ = 0;
+        } else {
+            fiftyMoveRuleCounter_ += 0.5;
+        }
 
         moves_.push_back(move);
-        board_.processMove(LegalMove{ .move = move, .moveType = moveType }, static_cast<int>(moves_.size()) + 1);
+        board_.processMove(legalMove, static_cast<int>(moves_.size()) + 1);
 
         colourToMove_ = oppositeColour(colourToMove_);
-        if (updateSeenPositions() == 3) {
-            // threefold repetition
-            hasEnded_ = true;
-            winner_ = std::nullopt;
-            return true;
-        }
         updateLegalMoves();
         if (legalMoves_.empty()) {
             hasEnded_ = true;
@@ -43,6 +43,12 @@ auto Game::processMove(const Move& move) -> bool {
             } else {
                 winner_ = std::nullopt;
             }
+        }
+        if (updateSeenPositions() == 3 || fiftyMoveRuleCounter_ == 50 || board_.hasInsufficientMaterial()) {
+            // draw due to: threefold repetition OR fifty move rule OR insufficient material
+            hasEnded_ = true;
+            winner_ = std::nullopt;
+            return true;
         }
         // TODO: other drawing conditions
         return true;
@@ -196,4 +202,14 @@ auto Game::updateSeenPositions() -> int {
     position += " ";
     position += enPassantTarget_.has_value() ? enPassantTarget_->toString() : "-";
     return ++seenPositions_[position];
+}
+
+auto Game::isPawnMoveOrCapture(const LegalMove& legalMove) -> bool {
+    const auto piece = board_.pieceAt(legalMove.move.from).lock();
+    if ((piece && piece->isPawn()) ||
+        (legalMove.moveType == MoveType::Capture || legalMove.moveType == MoveType::EnPassant)) {
+        return true;
+    } else {
+        return false;
+    }
 }

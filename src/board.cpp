@@ -1,5 +1,6 @@
 #include <iostream>
 #include <optional>
+#include <set>
 
 #include "board.h"
 #include "helper.h"
@@ -214,4 +215,49 @@ auto Board::getPositionString() const -> std::string {
         }
     }
     return state;
+}
+
+auto Board::hasInsufficientMaterial() const -> bool {
+    auto allPieces = std::multiset<char>();
+    for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+        for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+            const auto& piece = board_[row][col];
+            if (piece && !piece->isKing()) {
+                allPieces.insert(piece->getDisplaySymbol());
+            }
+        }
+    }
+
+    // king vs king
+    if (allPieces == std::multiset<char>()) {
+        // K vs K
+        return true;
+    } else if (allPieces == std::multiset<char>({'B'}) || allPieces == std::multiset<char>({'b'})) {
+        // K vs K+B
+        return true;
+    } else if (allPieces == std::multiset<char>({'N'}) || allPieces == std::multiset<char>({'n'})) {
+        // K vs K+N
+        return true;
+    } else if (allPieces == std::multiset<char>({'N', 'N'}) || allPieces == std::multiset<char>({'n', 'n'})) {
+        // K vs K+N+N (technically possible but requires cooperation)
+        return true;
+    } else if (allPieces == std::multiset<char>({'B', 'b'})) {
+        // K+B vs K+B is a draw if they are same colour
+        auto numWhiteBishops = 0;
+        for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
+            for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
+                const auto& piece = board_[row][col];
+                if (piece && piece->isBishop() && (row + col) % 2) {
+                    numWhiteBishops++;
+                }
+            }
+        }
+        if (numWhiteBishops != 1) {
+            return true;
+        }
+    }
+    // other draws are possible, but they are too rare and unrealistic to consider
+    // e.g. K+B+B vs K, or K+B+B+B vs K, if all bishops are the same colour
+
+    return false;
 }

@@ -22,6 +22,7 @@ class Game {
     bool blackCanCastleKingside_ = true;
     bool blackCanCastleQueenside_ = true;
     std::unordered_map<std::string, int> seenPositions_ = std::unordered_map<std::string, int>();
+    double fiftyMoveRuleCounter_ = 0;
     
     auto updateLegalMoves() -> void;
     auto validateLegalMove(const LegalMove& legalMove) const -> bool;
@@ -32,6 +33,7 @@ class Game {
     auto revokeKingsideCastleRights(const PieceColour& colour) -> void;
     auto revokeQueensideCastleRights(const PieceColour& colour) -> void;
     auto updateSeenPositions() -> int; // returns number of times the position has been seen
+    auto isPawnMoveOrCapture(const LegalMove& legalMove) -> bool;
 
     public:
     Game();

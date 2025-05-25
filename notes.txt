@@ -48,9 +48,9 @@ Here is a checklist of rules to implement:
 FOR FUTURE IMPLEMENTATION:
     - Draws
         - Stalemate                                                                                                         DONE
-        - Threefold repetition
-        - Insufficient material
-        - Fifty moves without a pawn move or a capture
+        - Threefold repetition                                                                                              DONE
+        - Insufficient material                                                                                             DONE
+        - Fifty moves without a pawn move or a capture                                                                      DONE
         - Player offers and opponent accepts
     - Resignation
         - A player can resign at any time, forfeiting the game
