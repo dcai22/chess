@@ -133,7 +133,6 @@ auto Game::validateEnPassant(const Move& move) const -> bool {
 
 auto Game::validateCastle(const Move& move) const -> bool {
     if (board_.isInCheck(colourToMove_)) {
-        std::cout << "Cannot castle while in check" << std::endl;
         return false;
     }
 
@@ -141,7 +140,6 @@ auto Game::validateCastle(const Move& move) const -> bool {
     const auto middleCol = (move.from.col + move.to.col) / 2;
     const auto middleSquare = Square(middleRow, middleCol);
     if (board_.isSquareAttacked(middleSquare, oppositeColour(colourToMove_))) {
-        std::cout << "Cannot castle through an attacked square" << std::endl;
         return false;
     }
 
