@@ -7,6 +7,7 @@
 
 #include "board.h"
 #include "types.h"
+#include "fifty_move_rule_counter.h"
 
 class Game {
  private:
@@ -22,7 +23,7 @@ class Game {
     bool blackCanCastleKingside_ = true;
     bool blackCanCastleQueenside_ = true;
     std::unordered_map<std::string, int> seenPositions_ = std::unordered_map<std::string, int>();
-    double fiftyMoveRuleCounter_ = 0;
+    FiftyMoveRuleCounter fiftyMoveRuleCounter_ = FiftyMoveRuleCounter();
     
     auto updateLegalMoves() -> void;
     auto validateLegalMove(const LegalMove& legalMove) const -> bool;

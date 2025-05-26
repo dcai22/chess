@@ -26,9 +26,9 @@ auto Game::processMove(const Move& move) -> bool {
         }
         updateCastlingRights(move);
         if (isPawnMoveOrCapture(legalMove)) {
-            fiftyMoveRuleCounter_ = 0;
+            fiftyMoveRuleCounter_.reset();
         } else {
-            fiftyMoveRuleCounter_ += 0.5;
+            fiftyMoveRuleCounter_.increment();
         }
 
         moves_.push_back(move);
@@ -44,13 +44,12 @@ auto Game::processMove(const Move& move) -> bool {
                 winner_ = std::nullopt;
             }
         }
-        if (updateSeenPositions() == 3 || fiftyMoveRuleCounter_ == 50 || board_.hasInsufficientMaterial()) {
+        if (updateSeenPositions() == 3 || fiftyMoveRuleCounter_.isFulfilled() || board_.hasInsufficientMaterial()) {
             // draw due to: threefold repetition OR fifty move rule OR insufficient material
             hasEnded_ = true;
             winner_ = std::nullopt;
             return true;
         }
-        // TODO: other drawing conditions
         return true;
     }
 }

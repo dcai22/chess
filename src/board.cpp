@@ -82,10 +82,9 @@ auto Board::executeMove(const LegalMove& legalMove) -> void {
             break;
         }
 
-        case MoveType::EnPassant: {
+        case MoveType::EnPassant:
             board_[from.row][to.col].reset();
             break;
-        }
 
         default:
             break;
@@ -157,6 +156,9 @@ auto Board::processMove(const LegalMove& legalMove, const int moveNum) -> void {
         const auto from = legalMove.move.from;
         const auto middleRow = from.row;
         const auto middleCol = (from.col + to.col) / 2;
+        if (!Square::isValid(middleRow, middleCol)) {
+            throw std::logic_error("Internal error: square doesn't exist on board");
+        }
         board_[middleRow][middleCol]->setLastMoved(moveNum);
     }
 }
