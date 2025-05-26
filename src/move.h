@@ -13,9 +13,9 @@ class Move {
 
     Move(const Square from, const Square to);
 
-    static auto fromStr(const std::string& command) -> std::optional<Move>;
+    [[nodiscard]] static auto fromStr(const std::string& command) -> std::optional<Move>;
 
-    auto operator==(const Move& other) const -> bool;
+    [[nodiscard]] auto operator==(const Move& other) const -> bool;
 };
 
 struct LegalMove {

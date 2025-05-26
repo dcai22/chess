@@ -44,7 +44,7 @@ auto Game::processMove(const Move& move) -> bool {
                 winner_ = std::nullopt;
             }
         }
-        if (updateSeenPositions() == 3 || fiftyMoveRuleCounter_.isFulfilled() || board_.hasInsufficientMaterial()) {
+        if (updateSeenPositions() == Constants::REPEATED_POSITION_LIMIT || fiftyMoveRuleCounter_.isFulfilled() || board_.hasInsufficientMaterial()) {
             // draw due to: threefold repetition OR fifty move rule OR insufficient material
             hasEnded_ = true;
             winner_ = std::nullopt;

@@ -9,5 +9,5 @@ class FiftyMoveRuleCounter {
 
     auto increment() -> void;
     auto reset() -> void;
-    auto isFulfilled() const -> bool;
+    [[nodiscard]] auto isFulfilled() const -> bool;
 };

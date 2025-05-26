@@ -26,15 +26,15 @@ class Game {
     FiftyMoveRuleCounter fiftyMoveRuleCounter_ = FiftyMoveRuleCounter();
     
     auto updateLegalMoves() -> void;
-    auto validateLegalMove(const LegalMove& legalMove) const -> bool;
-    auto validateEnPassant(const Move& move) const -> bool;
-    auto validateCastle(const Move& move) const -> bool;
-    auto getMoveType(const Move& move) const -> MoveType;
+    [[nodiscard]] auto validateLegalMove(const LegalMove& legalMove) const -> bool;
+    [[nodiscard]] auto validateEnPassant(const Move& move) const -> bool;
+    [[nodiscard]] auto validateCastle(const Move& move) const -> bool;
+    [[nodiscard]] auto getMoveType(const Move& move) const -> MoveType;
     auto updateCastlingRights(const Move& move) -> void;
     auto revokeKingsideCastleRights(const PieceColour& colour) -> void;
     auto revokeQueensideCastleRights(const PieceColour& colour) -> void;
     auto updateSeenPositions() -> int; // returns number of times the position has been seen
-    auto isPawnMoveOrCapture(const LegalMove& legalMove) -> bool;
+    [[nodiscard]] auto isPawnMoveOrCapture(const LegalMove& legalMove) -> bool;
 
     public:
     Game();
@@ -42,7 +42,7 @@ class Game {
     auto processMove(const Move& move) -> bool;
     auto printBoard() const -> void;
 
-    auto getWinner() const -> std::optional<PieceColour>;
-    auto hasEnded() const -> bool;
-    auto getColourToMove() const -> PieceColour;
+    [[nodiscard]] auto getWinner() const -> std::optional<PieceColour>;
+    [[nodiscard]] auto hasEnded() const -> bool;
+    [[nodiscard]] auto getColourToMove() const -> PieceColour;
 };

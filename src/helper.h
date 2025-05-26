@@ -5,5 +5,5 @@
 
 #include "types.h"
 
-auto splitByWhitespace(const std::string& str) -> std::vector<std::string>;
-auto oppositeColour(const PieceColour& colour) -> PieceColour;
+[[nodiscard]] auto splitByWhitespace(const std::string& str) -> std::vector<std::string>;
+[[nodiscard]] auto oppositeColour(const PieceColour& colour) -> PieceColour;

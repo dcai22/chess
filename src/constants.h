@@ -20,4 +20,6 @@ namespace Constants {
     constexpr char BISHOP_SYMBOL = 'B';
     constexpr char QUEEN_SYMBOL = 'Q';
     constexpr char KING_SYMBOL = 'K';
+
+    constexpr int REPEATED_POSITION_LIMIT = 3;
 }
