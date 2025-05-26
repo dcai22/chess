@@ -54,19 +54,19 @@ auto Game::processMove(const Move& move) -> bool {
     }
 }
 
-auto Game::printBoard() const -> void {
+auto Game::printBoard() const noexcept -> void {
     board_.printState();
 }
 
-auto Game::getWinner() const -> std::optional<PieceColour> {
+auto Game::getWinner() const noexcept -> std::optional<PieceColour> {
     return winner_;
 }
 
-auto Game::hasEnded() const -> bool {
+auto Game::hasEnded() const noexcept -> bool {
     return hasEnded_;
 }
 
-auto Game::getColourToMove() const -> PieceColour {
+auto Game::getColourToMove() const noexcept -> PieceColour {
     return colourToMove_;
 }
 
@@ -126,7 +126,7 @@ auto Game::validateLegalMove(const LegalMove& legalMove) const -> bool {
     return true;
 }
 
-auto Game::validateEnPassant(const Move& move) const -> bool {
+auto Game::validateEnPassant(const Move& move) const noexcept -> bool {
     return enPassantTarget_ == move.to;
 }
 
@@ -145,7 +145,7 @@ auto Game::validateCastle(const Move& move) const -> bool {
     return true;
 }
 
-auto Game::getMoveType(const Move& move) const -> MoveType {
+auto Game::getMoveType(const Move& move) const noexcept -> MoveType {
     for (const auto& legalMove : legalMoves_) {
         if (legalMove.move == move) {
             return legalMove.moveType;
@@ -172,14 +172,14 @@ auto Game::updateCastlingRights(const Move& move) -> void {
     }
 }
 
-auto Game::revokeKingsideCastleRights(const PieceColour& colour) -> void {
+auto Game::revokeKingsideCastleRights(const PieceColour& colour) noexcept -> void {
     if (colour == PieceColour::White) {
         whiteCanCastleKingside_ = false;
     } else {
         blackCanCastleKingside_ = false;
     }
 }
-auto Game::revokeQueensideCastleRights(const PieceColour& colour) -> void {
+auto Game::revokeQueensideCastleRights(const PieceColour& colour) noexcept -> void {
     if (colour == PieceColour::White) {
         whiteCanCastleQueenside_ = false;
     } else {

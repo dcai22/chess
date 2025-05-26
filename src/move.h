@@ -15,7 +15,7 @@ class Move {
 
     [[nodiscard]] static auto fromStr(const std::string& command) -> std::optional<Move>;
 
-    [[nodiscard]] auto operator==(const Move& other) const -> bool;
+    [[nodiscard]] auto operator==(const Move& other) const noexcept -> bool;
 };
 
 struct LegalMove {

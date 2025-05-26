@@ -3,13 +3,9 @@
 #include "../board.h"
 #include "../move.h"
 
-Queen::Queen(const PieceColour colour)
-: Piece(Constants::QUEEN_SYMBOL, Constants::QUEEN_SYMBOL, colour)
+Queen::Queen(const PieceColour& colour)
+: Piece(Constants::QUEEN_SYMBOL, Constants::QUEEN_SYMBOL, colour, getStartingRow(colour))
 {}
-
-auto Queen::getStartingRow() const -> int {
-    return getColour() == PieceColour::White ? 0 : 7;
-}
 
 auto Queen::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();

@@ -7,7 +7,7 @@ class FiftyMoveRuleCounter {
  public:
     FiftyMoveRuleCounter();
 
-    auto increment() -> void;
-    auto reset() -> void;
-    [[nodiscard]] auto isFulfilled() const -> bool;
+    auto increment() noexcept -> void;
+    auto reset() noexcept -> void;
+    [[nodiscard]] auto isFulfilled() const noexcept -> bool;
 };

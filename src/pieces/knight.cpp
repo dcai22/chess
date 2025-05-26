@@ -3,13 +3,9 @@
 #include "../board.h"
 #include "../move.h"
 
-Knight::Knight(const PieceColour colour)
-: Piece(Constants::KNIGHT_SYMBOL, Constants::KNIGHT_SYMBOL, colour)
+Knight::Knight(const PieceColour& colour)
+: Piece(Constants::KNIGHT_SYMBOL, Constants::KNIGHT_SYMBOL, colour, getStartingRow(colour))
 {}
-
-auto Knight::getStartingRow() const -> int {
-    return getColour() == PieceColour::White ? 0 : 7;
-}
 
 auto Knight::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();

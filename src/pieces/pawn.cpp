@@ -3,13 +3,13 @@
 #include "../board.h"
 #include "../move.h"
 
-Pawn::Pawn(const PieceColour colour)
-: Piece(Constants::PAWN_SYMBOL, Constants::PAWN_SYMBOL, colour)
+Pawn::Pawn(const PieceColour& colour)
+: Piece(Constants::PAWN_SYMBOL, Constants::PAWN_SYMBOL, colour, getStartingRow(colour))
 , direction_(colour == PieceColour::White ? 1 : -1)
 {}
 
-auto Pawn::getStartingRow() const -> int {
-    return getColour() == PieceColour::White ? 1 : 6;
+auto Pawn::getStartingRow(const PieceColour& colour) const noexcept -> int {
+    return colour == PieceColour::White ? 1 : 6;
 }
 
 auto Pawn::getAttackedSquares(const Board& board, const Square& from) const -> std::vector<Square> {

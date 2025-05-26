@@ -27,12 +27,12 @@ class Game {
     
     auto updateLegalMoves() -> void;
     [[nodiscard]] auto validateLegalMove(const LegalMove& legalMove) const -> bool;
-    [[nodiscard]] auto validateEnPassant(const Move& move) const -> bool;
+    [[nodiscard]] auto validateEnPassant(const Move& move) const noexcept -> bool;
     [[nodiscard]] auto validateCastle(const Move& move) const -> bool;
-    [[nodiscard]] auto getMoveType(const Move& move) const -> MoveType;
+    [[nodiscard]] auto getMoveType(const Move& move) const noexcept -> MoveType;
     auto updateCastlingRights(const Move& move) -> void;
-    auto revokeKingsideCastleRights(const PieceColour& colour) -> void;
-    auto revokeQueensideCastleRights(const PieceColour& colour) -> void;
+    auto revokeKingsideCastleRights(const PieceColour& colour) noexcept -> void;
+    auto revokeQueensideCastleRights(const PieceColour& colour) noexcept -> void;
     auto updateSeenPositions() -> int; // returns number of times the position has been seen
     [[nodiscard]] auto isPawnMoveOrCapture(const LegalMove& legalMove) -> bool;
 
@@ -40,9 +40,9 @@ class Game {
     Game();
 
     auto processMove(const Move& move) -> bool;
-    auto printBoard() const -> void;
+    auto printBoard() const noexcept -> void;
 
-    [[nodiscard]] auto getWinner() const -> std::optional<PieceColour>;
-    [[nodiscard]] auto hasEnded() const -> bool;
-    [[nodiscard]] auto getColourToMove() const -> PieceColour;
+    [[nodiscard]] auto getWinner() const noexcept -> std::optional<PieceColour>;
+    [[nodiscard]] auto hasEnded() const noexcept -> bool;
+    [[nodiscard]] auto getColourToMove() const noexcept -> PieceColour;
 };

@@ -62,3 +62,5 @@ Here are some other plans for the future:
  - Write unit tests using gtest
  - Create a frontend for the game
  - Build an AI chess bot
+
+I also added [[nodiscard]] and noexcept appropriately to some functions.

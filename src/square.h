@@ -12,7 +12,7 @@ class Square {
     [[nodiscard]] auto toString() const -> std::string;
 
     [[nodiscard]] static auto parseCoords(const std::string& coords) -> Square;
-    [[nodiscard]] static auto isValid(const int row, const int col) -> bool;
+    [[nodiscard]] static auto isValid(const int row, const int col) noexcept -> bool;
 
-    [[nodiscard]] auto operator==(const Square& other) const -> bool;
+    [[nodiscard]] auto operator==(const Square& other) const noexcept -> bool;
 };

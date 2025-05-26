@@ -15,28 +15,31 @@ class Piece {
     double value_;
     char symbol_;
     PieceColour colour_;
+    int startingRow_;
     bool lastMoved_ = 0;
 
- protected:
-    Piece(const double value, const char symbol, const PieceColour colour);
+    protected:
+    Piece(const double value, const char symbol, const PieceColour& colour, const int startingRow);
 
+    [[nodiscard]] virtual auto getStartingRow(const PieceColour& colour) const noexcept -> int;
+    
     public:
-    [[nodiscard]] auto getValue() const -> double;
-    [[nodiscard]] auto getSymbol() const -> char;
-    [[nodiscard]] auto getDisplaySymbol() const -> char;
-    [[nodiscard]] auto getColour() const -> PieceColour;
-    [[nodiscard]] auto getLastMoved() const -> int;
-    [[nodiscard]] auto hasMoved() const -> bool;
-    [[nodiscard]] auto isKing() const ->  bool;
-    [[nodiscard]] auto isQueen() const ->  bool;
-    [[nodiscard]] auto isRook() const ->  bool;
-    [[nodiscard]] auto isBishop() const ->  bool;
-    [[nodiscard]] auto isKnight() const ->  bool;
-    [[nodiscard]] auto isPawn() const ->  bool;
-    [[nodiscard]] auto isColour(const PieceColour& colour) const -> bool;
-    [[nodiscard]] virtual auto getStartingRow() const -> int = 0;
+    [[nodiscard]] auto getValue() const noexcept -> double;
+    [[nodiscard]] auto getSymbol() const noexcept -> char;
+    [[nodiscard]] auto getDisplaySymbol() const noexcept -> char;
+    [[nodiscard]] auto getColour() const noexcept -> PieceColour;
+    [[nodiscard]] auto getLastMoved() const noexcept -> int;
+    [[nodiscard]] auto hasMoved() const noexcept -> bool;
+    [[nodiscard]] auto isKing() const noexcept ->  bool;
+    [[nodiscard]] auto isQueen() const noexcept ->  bool;
+    [[nodiscard]] auto isRook() const noexcept ->  bool;
+    [[nodiscard]] auto isBishop() const noexcept ->  bool;
+    [[nodiscard]] auto isKnight() const noexcept ->  bool;
+    [[nodiscard]] auto isPawn() const noexcept ->  bool;
+    [[nodiscard]] auto isColour(const PieceColour& colour) const noexcept -> bool;
+    [[nodiscard]] auto getStartingRow() const noexcept -> int;
 
-    auto setLastMoved(const int& moveNum) -> void;
+    auto setLastMoved(const int& moveNum) noexcept -> void;
 
     [[nodiscard]] virtual auto getAttackedSquares(const Board& board, const Square& from) const -> std::vector<Square>;
     [[nodiscard]] auto isAttack(const Board& board, const Move& move) const -> bool;

@@ -3,13 +3,9 @@
 #include "../board.h"
 #include "../move.h"
 
-Rook::Rook(const PieceColour colour)
-: Piece(Constants::ROOK_SYMBOL, Constants::ROOK_SYMBOL, colour)
+Rook::Rook(const PieceColour& colour)
+: Piece(Constants::ROOK_SYMBOL, Constants::ROOK_SYMBOL, colour, getStartingRow(colour))
 {}
-
-auto Rook::getStartingRow() const -> int {
-    return getColour() == PieceColour::White ? 0 : 7;
-}
 
 auto Rook::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();

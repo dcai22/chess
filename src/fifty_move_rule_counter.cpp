@@ -3,14 +3,14 @@
 FiftyMoveRuleCounter::FiftyMoveRuleCounter() {
 };
 
-auto FiftyMoveRuleCounter::increment() -> void {
+auto FiftyMoveRuleCounter::increment() noexcept -> void {
     counter_ += 0.5;
 }
 
-auto FiftyMoveRuleCounter::reset() -> void {
+auto FiftyMoveRuleCounter::reset() noexcept -> void {
     counter_ = 0;
 }
 
-auto FiftyMoveRuleCounter::isFulfilled() const -> bool {
+auto FiftyMoveRuleCounter::isFulfilled() const noexcept -> bool {
     return counter_ >= 50;
 }

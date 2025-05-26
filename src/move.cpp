@@ -22,6 +22,6 @@ auto Move::fromStr(const std::string& command) -> std::optional<Move> {
     }
 }
 
-auto Move::operator==(const Move& other) const -> bool {
+auto Move::operator==(const Move& other) const noexcept -> bool {
     return from == other.from && to == other.to;
 }

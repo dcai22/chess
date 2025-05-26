@@ -44,7 +44,7 @@ Board::Board() {
     }
 }
 
-auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Square> {
+auto Board::getKingSquare(const PieceColour& colour) const noexcept -> std::optional<Square> {
     const auto targetSymbol = King(colour).getDisplaySymbol();
     for (auto row = 0; row < Constants::BOARD_SIZE; row++) {
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
@@ -57,7 +57,7 @@ auto Board::getKingSquare(const PieceColour& colour) const -> std::optional<Squa
     return std::nullopt;
 }
 
-auto Board::executeMove(const LegalMove& legalMove) -> void {
+auto Board::executeMove(const LegalMove& legalMove) noexcept -> void {
     const auto from = legalMove.move.from;
     const auto to = legalMove.move.to;
     board_[to.row][to.col] = std::move(board_[from.row][from.col]);
@@ -163,7 +163,7 @@ auto Board::processMove(const LegalMove& legalMove, const int moveNum) -> void {
     }
 }
 
-auto Board::printState() const -> void {
+auto Board::printState() const noexcept -> void {
     for (auto row = Constants::BOARD_SIZE - 1; row >= 0; row--) {
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
             const auto& piece = board_[row][col];
