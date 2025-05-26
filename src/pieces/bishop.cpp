@@ -17,8 +17,7 @@ auto Bishop::getStartingRow() const -> int {
 
 auto Bishop::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
-    const auto directions = std::vector<std::vector<int>>({{1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
-    for (const auto& direction : directions) {
+    for (const auto& direction : directions_) {
         auto toRow = from.row;
         auto toCol = from.col;
         while (true) {

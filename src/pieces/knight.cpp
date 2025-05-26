@@ -13,8 +13,7 @@ auto Knight::getStartingRow() const -> int {
 
 auto Knight::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
-    const auto directions = std::vector<std::vector<int>>({{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}});
-    for (const auto& direction : directions) {
+    for (const auto& direction : directions_) {
         const auto toRow = from.row + direction[0];
         const auto toCol = from.col + direction[1];
         if (!Square::isValid(toRow, toCol)) {

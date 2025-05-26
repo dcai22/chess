@@ -5,21 +5,17 @@
 
 Pawn::Pawn(const PieceColour colour)
 : Piece(Constants::PAWN_SYMBOL, Constants::PAWN_SYMBOL, colour)
+, direction_(colour == PieceColour::White ? 1 : -1)
 {}
 
 auto Pawn::getStartingRow() const -> int {
     return getColour() == PieceColour::White ? 1 : 6;
 }
 
-// returns 1 if pawn goes up the board, -1 if pawn goes down the board
-auto Pawn::getDirection() const -> int {
-    return getColour() == PieceColour::White ? 1 : -1;
-}
-
 auto Pawn::getAttackedSquares(const Board& board, const Square& from) const -> std::vector<Square> {
     auto attackedSquares = std::vector<Square>();
 
-    const auto rowStep = getDirection();
+    const auto rowStep = direction_;
     const auto colSteps = {1, -1};
     for (const auto& colStep : colSteps) {
         const auto toRow = from.row + rowStep;
@@ -39,7 +35,7 @@ auto Pawn::getAttackedSquares(const Board& board, const Square& from) const -> s
 
 auto Pawn::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
-    const auto rowStep = getDirection();
+    const auto rowStep = direction_;
 
     // move
     const auto maxNumSteps = hasMoved() ? 1 : 2;

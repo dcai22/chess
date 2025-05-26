@@ -4,7 +4,7 @@
 
 class Pawn : public Piece {
  private:
-    auto getDirection() const -> int;
+    const int direction_;
 
  public:
     Pawn(const PieceColour colour);

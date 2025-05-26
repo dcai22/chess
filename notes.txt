@@ -54,3 +54,11 @@ FOR FUTURE IMPLEMENTATION:
         - Player offers and opponent accepts
     - Resignation
         - A player can resign at any time, forfeiting the game
+
+26/05/2025
+Rule implementation is complete. All that is missing is draw offers, resignation, and perhaps a chess clock.
+Now I will do thorough error-checking, especially with the Square constructor.
+Here are some other plans for the future:
+ - Write unit tests using gtest
+ - Create a frontend for the game
+ - Build an AI chess bot

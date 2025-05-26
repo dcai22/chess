@@ -13,8 +13,7 @@ auto King::getStartingRow() const -> int {
 
 auto King::getLegalMoves(const Board& board, const Square& from) const -> std::vector<LegalMove> {
     auto legalMoves = std::vector<LegalMove>();
-    const auto directions = std::vector<std::vector<int>>({{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
-    for (const auto& direction : directions) {
+    for (const auto& direction : directions_) {
         const auto toRow = from.row + direction[0];
         const auto toCol = from.col + direction[1];
         if (!Square::isValid(toRow, toCol)) {
@@ -37,9 +36,11 @@ auto King::getLegalMoves(const Board& board, const Square& from) const -> std::v
     // castling
     const auto kingRow = getStartingRow();
     const auto kingCol = 4;
+    const auto kingsideRookCol = 7;
+    const auto queensideRookCol = 0;
     const auto kingSquare = Square(kingRow, kingCol);
-    const auto kingsideRookSquare = Square(kingRow, 7);
-    const auto queensideRookSquare = Square(kingRow, 0);
+    const auto kingsideRookSquare = Square(kingRow, kingsideRookCol);
+    const auto queensideRookSquare = Square(kingRow, queensideRookCol);
     if (!hasMoved() && from == kingSquare) {
         // kingside
         const auto kingsideTo = Square(kingRow, kingCol + 2);
