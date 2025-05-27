@@ -7,7 +7,7 @@ execute_process(COMMAND bash util/setup.sh)
 
 # this must be the first line of a CMake script.
 # sets the lowerbound on what CMake version can be used.
-cmake_minimum_required(VERSION 3.0...3.5)
+cmake_minimum_required(VERSION 3.16)
 
 # the name of this CMake project and what language it uses
 # we could list more languages if we were using more.
