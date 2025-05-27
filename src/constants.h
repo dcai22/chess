@@ -22,4 +22,8 @@ namespace Constants {
     constexpr char KING_SYMBOL = 'K';
 
     constexpr int REPEATED_POSITION_LIMIT = 3;
+
+    // colours
+    inline constexpr const char* GRAY_COLOUR_LABEL = "\033[90m";
+    inline constexpr const char* COLOUR_RESET = "\033[0m";
 }

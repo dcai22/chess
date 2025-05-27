@@ -165,12 +165,14 @@ auto Board::processMove(const LegalMove& legalMove, const int moveNum) -> void {
 
 auto Board::printState() const noexcept -> void {
     for (auto row = Constants::BOARD_SIZE - 1; row >= 0; row--) {
+        std::cout << Constants::GRAY_COLOUR_LABEL << row + 1 << " " << Constants::COLOUR_RESET;
         for (auto col = 0; col < Constants::BOARD_SIZE; col++) {
             const auto& piece = board_[row][col];
             std::cout << (piece ? piece->getDisplaySymbol() : '.') << " ";
         }
         std::cout << std::endl;
     }
+    std::cout << Constants::GRAY_COLOUR_LABEL << "  a b c d e f g h" << Constants::COLOUR_RESET << std::endl;
 }
 
 auto Board::pieceAt(const Square& square) const -> std::weak_ptr<Piece> {
